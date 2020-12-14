@@ -258,7 +258,7 @@ def Ciclo():
         time.sleep(60 * 60 * 24)
     else:
         print("No hay datos que actualizar")
-        time.sleep(60 * 60 * 2)
+        time.sleep(60 * 60 * 4)
     print("Ciclo completo")
     Ciclo()
 
