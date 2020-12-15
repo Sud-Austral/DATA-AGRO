@@ -157,12 +157,14 @@ def Actualizar_Datos():
     Detalle_Dict['$/docena'] = 1.2 #Preguntar
 
     Detalle  = pd.read_excel("Diccionario.xlsx", sheet_name=hojas_for_dict[3])
+    Frutas = []
+    Hortalizas = []
     for i in Descargar_Archivos():
         print(i)
         wb = openpyxl.load_workbook(i)
         hojas = wb.sheetnames
         hojas
-        Frutas = []
+        
         dict_auxiliar = {}
         for hoja in hojas:
             if("Frutas" in hoja):
@@ -192,7 +194,7 @@ def Actualizar_Datos():
                     Frutas.append(diccionario_auxiliar(mercado,region,fecha,cod_reg,tipo,categoria,producto,variedad,calidad,volumen,precio_minimo,precio_maximo,precio_promedio,u_comercializacion,origen, precio,kgUnidad))
                     #Frutas.append(
                 #break
-        Hortalizas = []
+        
         for hoja in hojas:
             if("Hortalizas" in hoja):
                 #Frutas.append(hoja)
