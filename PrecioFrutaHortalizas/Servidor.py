@@ -5,6 +5,7 @@ from os import scandir, getcwd
 import pandas as pd
 import openpyxl
 import git
+import requests
 
 def ls(ruta = getcwd()):
     return [arch.name for arch in scandir(ruta) if arch.is_file()]
@@ -41,9 +42,11 @@ def Descargar_Archivos():
         mesDescarga = (fechaMaxima + datetime.timedelta(days = numero)).strftime("%m")
         urlBase =  "https://www.odepa.gob.cl/wp-content/uploads/" + annioDescarga + "/" + mesDescarga + "/Boletin_Diario_de_Frutas_y_Hortalizas_"
         fecha = (fechaMaxima + datetime.timedelta(days = numero)).strftime("%Y%m%d.xlsx") 
-        
+        print(urlBase + fecha)
         try:
-            wget.download(urlBase + fecha, fecha)
+            myfile = requests.get(urlBase)
+            open(fecha, 'wb').write(myfile.content)
+            #wget.download(urlBase + fecha, fecha)
             print(urlBase + fecha)
             salida.append(fecha)
         except:
@@ -89,7 +92,7 @@ def convertirFecha(fecha):
         return datetime.datetime.strptime(string,"%d-%m-%Y")
     return fecha
 
-def Actualizar_Datos():
+def Actualizar_Datos(Archivos):
     wb = openpyxl.load_workbook("Diccionario.xlsx")
     hojas_for_dict = wb.sheetnames
     hojas_for_dict
@@ -159,7 +162,7 @@ def Actualizar_Datos():
     Detalle  = pd.read_excel("Diccionario.xlsx", sheet_name=hojas_for_dict[3])
     Frutas = []
     Hortalizas = []
-    for i in Descargar_Archivos():
+    for i in Archivos:
         print(i)
         wb = openpyxl.load_workbook(i)
         hojas = wb.sheetnames
@@ -240,7 +243,7 @@ def Actualizar_Datos():
 
 def guardarRepositorio():
     #repoLocal = git.Repo( 'C:/Users/mario1/Documents/GitHub/Python/Datos' )
-    repoLocal = git.Repo('D:\GitHub\DATA-AGRO')
+    repoLocal = git.Repo(r'C:\Users\datos\Documents\GitHub\DATA-AGRO')
     #print(repoLocal.git.status())
 
     try:
@@ -259,8 +262,9 @@ def guardarRepositorio():
     return
 
 def Ciclo():
-    if(len(Descargar_Archivos()) > 0):
-        Actualizar_Datos()
+    Archivos = Descargar_Archivos()
+    if(len(Archivos) > 0):
+        Actualizar_Datos(Archivos)
         guardarRepositorio()
         time.sleep(60 * 60 * 24)
     else:
