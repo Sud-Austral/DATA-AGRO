@@ -44,7 +44,7 @@ def Descargar_Archivos():
         fecha = (fechaMaxima + datetime.timedelta(days = numero)).strftime("%Y%m%d.xlsx") 
         print(urlBase + fecha)
         try:
-            myfile = requests.get(urlBase)
+            myfile = requests.get(urlBase + fecha)
             open(fecha, 'wb').write(myfile.content)
             #wget.download(urlBase + fecha, fecha)
             print(urlBase + fecha)
