@@ -6,6 +6,7 @@ import pandas as pd
 import openpyxl
 import git
 import requests
+from os import remove
 
 def ls(ruta = getcwd()):
     return [arch.name for arch in scandir(ruta) if arch.is_file()]
@@ -48,12 +49,18 @@ def Descargar_Archivos():
             open(fecha, 'wb').write(myfile.content)
             #wget.download(urlBase + fecha, fecha)
             print(urlBase + fecha)
-            salida.append(fecha)
+            #salida.append(fecha)
         except:
             pass
+        try:
+            pd.read_excel(fecha)
+            salida.append(fecha)
+        except:
+            remove(fecha)
 
         flag = (fechaMaxima + datetime.timedelta(days = numero)).strftime("%Y%m%d") != datetime.datetime.now().strftime("%Y%m%d")
         numero = numero + 1
+    
     return salida
 
 
@@ -158,6 +165,8 @@ def Actualizar_Datos(Archivos):
     Detalle_Dict['$/envase 1 kilo'] = 1
     Detalle_Dict['$/cien'] = 10 #Preguntar
     Detalle_Dict['$/docena'] = 1.2 #Preguntar
+    Detalle_Dict['$/caja 14 kilos'] = 14 #Preguntar
+    Detalle_Dict['$/cien en rama (volumen en unidades)'] = 1 #Preguntar
 
     Detalle  = pd.read_excel("Diccionario.xlsx", sheet_name=hojas_for_dict[3])
     Frutas = []
