@@ -167,6 +167,8 @@ def Actualizar_Datos(Archivos):
     Detalle_Dict['$/docena'] = 1.2 #Preguntar
     Detalle_Dict['$/caja 14 kilos'] = 14 #Preguntar
     Detalle_Dict['$/cien en rama (volumen en unidades)'] = 1 #Preguntar
+    Detalle_Dict['$/caja 20 kilos empedrada'] = 20
+    Detalle_Dict['$/caja 17 kilos empedrada'] = 17
 
     Detalle  = pd.read_excel("Diccionario.xlsx", sheet_name=hojas_for_dict[3])
     Frutas = []
@@ -201,7 +203,12 @@ def Actualizar_Datos(Archivos):
                     precio_promedio = datos['Precio\npromedio'][filas]
                     u_comercializacion = datos['Unidad de\ncomercialización '][filas]
                     origen = datos['Origen '][filas]
-                    kgUnidad = Detalle_Dict[u_comercializacion]
+                    try:
+                        kgUnidad = Detalle_Dict[u_comercializacion]
+                    except:
+                        kgUnidad = 1
+                    
+                    
                     precio = int(round(precio_promedio / kgUnidad,0))               
                     Frutas.append(diccionario_auxiliar(mercado,region,fecha,cod_reg,tipo,categoria,producto,variedad,calidad,volumen,precio_minimo,precio_maximo,precio_promedio,u_comercializacion,origen, precio,kgUnidad))
                     #Frutas.append(
@@ -233,7 +240,11 @@ def Actualizar_Datos(Archivos):
                     except:
                         u_comercializacion = datos['Unidad de\ncomercialización'][filas]
                     origen = datos['Origen '][filas]
-                    kgUnidad = Detalle_Dict[u_comercializacion]
+                    try:
+                        kgUnidad = Detalle_Dict[u_comercializacion]
+                    except:
+                        kgUnidad = 1
+                    #kgUnidad = Detalle_Dict[u_comercializacion]
                     precio = int(round(precio_promedio / kgUnidad,0))               
                     Hortalizas.append(diccionario_auxiliar(mercado,region,fecha,cod_reg,tipo,categoria,producto,variedad,calidad,volumen,precio_minimo,precio_maximo,precio_promedio,u_comercializacion,origen, precio,kgUnidad))
     datosFruta = pd.DataFrame(Frutas)
