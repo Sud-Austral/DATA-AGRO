@@ -283,7 +283,7 @@ def guardarRepositorio():
     return
 
 def Ciclo():
-    #Archivos = Descargar_Archivos()
+    Archivos = Descargar_Archivos()
     Archivos = lsExcel()
     if(len(Archivos) > 0):
         Actualizar_Datos(Archivos)
