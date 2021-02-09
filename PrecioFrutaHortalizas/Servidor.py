@@ -19,11 +19,11 @@ def lsExcel():
     return salida
 
 def ref_frutas():
-    dataReferenciaFruta = pd.read_excel("Consolidado/FrutaConsolidado.xlsx")
+    dataReferenciaFruta = pd.read_excel("Consolidado/FrutaConsolidado1.xlsx")
     return dataReferenciaFruta
 
 def ref_hortalizas():
-    dataReferenciaHortaliza = pd.read_excel("Consolidado/HortalizaConsolidado.xlsx")
+    dataReferenciaHortaliza = pd.read_excel("Consolidado/HortalizaConsolidado1.xlsx")
     return dataReferenciaHortaliza
 
 def Fecha_Actual_Fruta():
@@ -254,11 +254,11 @@ def Actualizar_Datos(Archivos):
     del datosHortaliza["Categoría"]
     del datosHortaliza["Kg / unidad"]
 
-    #fruta_salida = pd.concat([ref_frutas(),datosFruta])
-    #hortaliza_salida = pd.concat([ref_hortalizas(),datosHortaliza])
-    fruta_salida = datosFruta
-    hortaliza_salida = datosHortaliza
-    hortaliza_salida["Clasificación"] = "Hortaliza"
+    fruta_salida = pd.concat([ref_frutas(),datosFruta])
+    hortaliza_salida = pd.concat([ref_hortalizas(),datosHortaliza])
+    #fruta_salida = datosFruta
+    #hortaliza_salida = datosHortaliza
+    #hortaliza_salida["Clasificación"] = "Hortaliza"
     fruta_salida.to_excel("Consolidado/FrutaConsolidado.xlsx", index=False)
     hortaliza_salida.to_excel("Consolidado/HortalizaConsolidado.xlsx", index=False)
     return 
