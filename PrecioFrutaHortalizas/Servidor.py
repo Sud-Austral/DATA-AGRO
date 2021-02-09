@@ -258,6 +258,7 @@ def Actualizar_Datos(Archivos):
     #hortaliza_salida = pd.concat([ref_hortalizas(),datosHortaliza])
     fruta_salida = datosFruta
     hortaliza_salida = datosHortaliza
+    hortaliza_salida["Clasificación"] = "Hortaliza"
     fruta_salida.to_excel("Consolidado/FrutaConsolidado.xlsx", index=False)
     hortaliza_salida.to_excel("Consolidado/HortalizaConsolidado.xlsx", index=False)
     return 
