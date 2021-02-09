@@ -14,7 +14,7 @@ def ls(ruta = getcwd()):
 def lsExcel():
     salida = []
     for i in ls():
-        if("xlsx" in i and "20" in i and ".tmp" not in i):
+        if("xlsx" in i and "20" in i and ".tmp" not in i and i[0] == "2"):
             salida.append(i)
     return salida
 
@@ -254,9 +254,10 @@ def Actualizar_Datos(Archivos):
     del datosHortaliza["Categoría"]
     del datosHortaliza["Kg / unidad"]
 
-    fruta_salida = pd.concat([ref_frutas(),datosFruta])
-    hortaliza_salida = pd.concat([ref_hortalizas(),datosHortaliza])
-
+    #fruta_salida = pd.concat([ref_frutas(),datosFruta])
+    #hortaliza_salida = pd.concat([ref_hortalizas(),datosHortaliza])
+    fruta_salida = datosFruta
+    hortaliza_salida = datosHortaliza
     fruta_salida.to_excel("Consolidado/FrutaConsolidado.xlsx", index=False)
     hortaliza_salida.to_excel("Consolidado/HortalizaConsolidado.xlsx", index=False)
     return 
@@ -282,7 +283,8 @@ def guardarRepositorio():
     return
 
 def Ciclo():
-    Archivos = Descargar_Archivos()
+    #Archivos = Descargar_Archivos()
+    Archivos = lsExcel()
     if(len(Archivos) > 0):
         Actualizar_Datos(Archivos)
         guardarRepositorio()
