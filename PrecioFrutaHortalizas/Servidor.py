@@ -257,16 +257,19 @@ def Actualizar_Datos(Archivos):
                     Hortalizas.append(diccionario_auxiliar(mercado,region,fecha,cod_reg,tipo,categoria,producto,variedad,calidad,volumen,precio_minimo,precio_maximo,precio_promedio,u_comercializacion,origen, precio,kgUnidad))
     datosFruta = pd.DataFrame(Frutas)
     datosHortaliza = pd.DataFrame(Hortalizas)
-
+    
+    datosHortaliza["Kg o Unidades"] = datosHortaliza["Kg / unidad"]
     del datosHortaliza["Tipo"]
     del datosHortaliza["Categoría"]
     del datosHortaliza["Kg / unidad"]
 
     fruta_salida = pd.concat([ref_frutas1(),datosFruta])
     hortaliza_salida = pd.concat([ref_hortalizas1(),datosHortaliza])
+    fruta_salida.fillna(0)
+    hortaliza_salida.fillna(0)
     #fruta_salida = datosFruta
     #hortaliza_salida = datosHortaliza
-    #hortaliza_salida["Clasificación"] = "Hortaliza"
+    hortaliza_salida["Clasificación"] = "Hortaliza"
     fruta_salida.to_excel("Consolidado/FrutaConsolidado.xlsx", index=False)
     hortaliza_salida.to_excel("Consolidado/HortalizaConsolidado.xlsx", index=False)
     return 
