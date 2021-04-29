@@ -99,7 +99,7 @@ def convertirFecha(fecha):
     return fecha
 
 def Actualizar_Datos(Archivos):
-    wb = openpyxl.load_workbook("Diccionario.xlsx")
+    wb = openpyxl.load_workbook("PrecioFrutaHortalizas/Diccionario.xlsx")
     hojas_for_dict = wb.sheetnames
     hojas_for_dict
 
@@ -135,19 +135,19 @@ def Actualizar_Datos(Archivos):
         8:"Bíobío"
     }
 
-    Mes = pd.read_excel("Diccionario.xlsx", sheet_name=hojas_for_dict[1])
+    Mes = pd.read_excel("PrecioFrutaHortalizas/Diccionario.xlsx", sheet_name=hojas_for_dict[1])
 
     Mes_Dict = {}
     for i in range(len(Mes)):
         Mes_Dict[i] = Mes["Mes"][i]
     Mes_Dict
 
-    Especie  = pd.read_excel("Diccionario.xlsx", sheet_name=hojas_for_dict[2])
+    Especie  = pd.read_excel("PrecioFrutaHortalizas/Diccionario.xlsx", sheet_name=hojas_for_dict[2])
     Especie_Dict = {}
     for i in range(len(Especie)):
         Especie_Dict[Especie["Especie"][i]] = Especie["Clasificación"][i]
         
-    Detalle  = pd.read_excel("Diccionario.xlsx", sheet_name=hojas_for_dict[3])
+    Detalle  = pd.read_excel("PrecioFrutaHortalizas/Diccionario.xlsx", sheet_name=hojas_for_dict[3])
     Detalle_Dict = {}
     for i in range(len(Detalle)):
         Detalle_Dict[Detalle["Detalle"][i]] = Detalle["Kg"][i]
@@ -169,7 +169,7 @@ def Actualizar_Datos(Archivos):
     Detalle_Dict['$/caja 20 kilos empedrada'] = 20
     Detalle_Dict['$/caja 17 kilos empedrada'] = 17
 
-    Detalle  = pd.read_excel("Diccionario.xlsx", sheet_name=hojas_for_dict[3])
+    Detalle  = pd.read_excel("PrecioFrutaHortalizas/Diccionario.xlsx", sheet_name=hojas_for_dict[3])
     Frutas = []
     Hortalizas = []
     for i in Archivos:
