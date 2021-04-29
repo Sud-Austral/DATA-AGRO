@@ -37,7 +37,7 @@ jobs:
         repository: .
 
         # Optional commit user and author settings
-        commit_user_name: Actions Bot
+        commit_user_name: hectorflores329
         commit_user_email: hectorflores329@gmail.com
         commit_author: DataIntelligence BOT <hectorflores329@gmail.com>
         push_options: '--force'
