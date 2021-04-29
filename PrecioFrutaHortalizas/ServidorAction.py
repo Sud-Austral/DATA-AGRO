@@ -261,8 +261,8 @@ def Actualizar_Datos(Archivos):
     #fruta_salida = datosFruta
     #hortaliza_salida = datosHortaliza
     hortaliza_salida["Clasificación"] = "Hortaliza"
-    fruta_salida.to_excel("Consolidado/FrutaConsolidado.xlsx", index=False)
-    hortaliza_salida.to_excel("Consolidado/HortalizaConsolidado.xlsx", index=False)
+    fruta_salida.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
+    hortaliza_salida.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx", index=False)
     return
 
 def Fecha_Actual_Fruta():
@@ -276,15 +276,15 @@ def ls(ruta = getcwd()):
     return [arch.name for arch in scandir(ruta) if arch.is_file()]
 
 def ref_hortalizas():
-    dataReferenciaHortaliza = pd.read_excel("Consolidado/HortalizaConsolidado.xlsx")
+    dataReferenciaHortaliza = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
     return dataReferenciaHortaliza
 
 def ref_frutas1():
-    dataReferenciaFruta = pd.read_excel("Consolidado/FrutaConsolidado1.xlsx")
+    dataReferenciaFruta = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado1.xlsx")
     return dataReferenciaFruta
 
 def ref_hortalizas1():
-    dataReferenciaHortaliza = pd.read_excel("Consolidado/HortalizaConsolidado1.xlsx")
+    dataReferenciaHortaliza = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado1.xlsx")
     return dataReferenciaHortaliza
 
 def Fecha_Actual_Fruta():
