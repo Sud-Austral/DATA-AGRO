@@ -103,7 +103,7 @@ def Actualizar_Datos(Archivos):
     hojas_for_dict = wb.sheetnames
     hojas_for_dict
 
-    Mercado = pd.read_excel("Diccionario.xlsx", sheet_name=hojas_for_dict[0])
+    Mercado = pd.read_excel("PrecioFrutaHortalizas/Diccionario.xlsx", sheet_name=hojas_for_dict[0])
     Mercado.to_dict(orient = "list")["Mercado  "]
     for i in range(len(Mercado.to_dict(orient = "list")["Mercado  "])):
         print('"' + Mercado.to_dict(orient = "list")["Mercado  "][i] + '"')
