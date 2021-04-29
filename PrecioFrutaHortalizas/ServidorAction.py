@@ -269,7 +269,7 @@ def Fecha_Actual_Fruta():
     return max(ref_frutas()["Fecha"])
 
 def ref_frutas():
-    dataReferenciaFruta = pd.read_excel("Consolidado/FrutaConsolidado.xlsx")
+    dataReferenciaFruta = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
     return dataReferenciaFruta
 
 def ls(ruta = getcwd()):
