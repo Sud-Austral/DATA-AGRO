@@ -301,8 +301,9 @@ def consolidadoFruta():
     print("Creando consolidado Frutas")
     dfC = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
     
-    conection = pyodbc.connect("Driver={SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
+    conection = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
     cursor = conection.cursor()
+    
     
     datos = []
 
@@ -376,7 +377,7 @@ def consolidadoHortaliza():
     print("Creando consolidado Hortalizas")
     dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
     
-    conection = pyodbc.connect("Driver={SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
+    conection = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
     cursor = conection.cursor()
     
     datos = []
