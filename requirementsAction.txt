@@ -7,3 +7,4 @@ azure-ai-formrecognizer
 azure-ai-textanalytics
 wget
 python-git
+pyodbc
