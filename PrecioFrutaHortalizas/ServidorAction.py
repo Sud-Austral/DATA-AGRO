@@ -316,6 +316,10 @@ def consolidadoFruta():
 
         if (_cate == "Oleaginosos"):
             _cate = "Frutos oleaginosos"
+
+        elif(_cate == "Breva"):
+             _cate = "Higo"
+
         else:
             pass
 
