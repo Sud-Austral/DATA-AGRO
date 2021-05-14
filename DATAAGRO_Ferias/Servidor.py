@@ -61,7 +61,8 @@ def filesData():
         # print(f)
         
         name = normalize(f[6:]).lower()
-        # print(name)
+        print(normalize(f).lower())
+        print(name)
         
         precios = pd.concat([tabla1(f), tabla2(f)])
         precios.to_excel("DATAAGRO_Ferias/files/consolidados_precios/" + str(name) + "_precios.xlsx", index=False)
