@@ -3,3 +3,4 @@ openpyxl==3.0.3
 xlrd==1.2.0
 selenium
 requests
+xlsxwriter
