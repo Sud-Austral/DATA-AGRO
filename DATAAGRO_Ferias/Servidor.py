@@ -107,17 +107,17 @@ def consolidarPrecios():
     finalP = "DATAAGRO_Ferias/consolidado/consolidado_feria_precios.xlsx"
     # print(len(archivos))
     
-    '''if (os.path.isfile(finalP)):
+    if (os.path.isfile(finalP)):
         os.remove(finalP)
     else: 
         workbookP = xlsxwriter.Workbook(finalP)
-        workbookP.close()'''
+        workbookP.close()
     
-    try:
+    '''try:
         os.remove(finalP)
     except:
         workbookP = xlsxwriter.Workbook(finalP)
-        workbookP.close()
+        workbookP.close()'''
         
     for i in range(len(filesP)):
         
@@ -138,17 +138,17 @@ def consolidarCantidad():
     finalC = "DATAAGRO_Ferias/consolidado/consolidado_feria_cantidad.xlsx"
     # print(len(archivos))
     
-    '''if (os.path.isfile(finalC)):
+    if (os.path.isfile(finalC)):
         os.remove(finalC)
     else: 
         workbookC = xlsxwriter.Workbook(finalC)
-        workbookC.close()'''
+        workbookC.close()
     
-    try:
+    '''try:
         os.remove(finalC)
     except:
         workbookC = xlsxwriter.Workbook(finalC)
-        workbookC.close()
+        workbookC.close()'''
         
     for i in range(len(filesC)):
         
