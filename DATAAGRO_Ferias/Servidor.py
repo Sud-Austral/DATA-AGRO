@@ -113,11 +113,11 @@ def consolidarPrecios():
         workbookP = xlsxwriter.Workbook(finalP)
         workbookP.close()'''
     
-    # try:
-        # os.remove(finalP)
-    # except:
-    workbookP = xlsxwriter.Workbook(finalP)
-    workbookP.close()
+    try:
+        os.remove(finalP)
+    except:
+        workbookP = xlsxwriter.Workbook(finalP)
+        workbookP.close()
         
     for i in range(len(filesP)):
         
@@ -144,11 +144,11 @@ def consolidarCantidad():
         workbookC = xlsxwriter.Workbook(finalC)
         workbookC.close()'''
     
-    # try:
-        # os.remove(finalC)
-    # except:
-    workbookC = xlsxwriter.Workbook(finalC)
-    workbookC.close()
+    try:
+        os.remove(finalC)
+    except:
+        workbookC = xlsxwriter.Workbook(finalC)
+        workbookC.close()
         
     for i in range(len(filesC)):
         
