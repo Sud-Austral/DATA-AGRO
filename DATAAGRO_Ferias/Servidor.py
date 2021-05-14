@@ -207,7 +207,7 @@ def descargarDatos():
 
                 url = descarga.get_attribute("href")
                 file = requests.get(url)
-                open("DATAAGRO_Ferias/" + str(semana.text) + ".xlsx", "wb").write(file.content)
+                open("DATAAGRO_Ferias/files/" + str(semana.text) + ".xlsx", "wb").write(file.content)
 
 
             except:
