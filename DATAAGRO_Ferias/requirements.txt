@@ -1,6 +1,5 @@
+selenium
 pandas==1.2.4
 openpyxl==3.0.3
 xlrd==1.2.0
-selenium
 os
-lxml
