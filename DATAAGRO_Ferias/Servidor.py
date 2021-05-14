@@ -104,7 +104,7 @@ def consolidarPrecios():
     filesP = glob.glob(fileP)
 
     archivosP = np.array(filesP)
-    finalP = 'consolidado/consolidado_feria_precios.xlsx'
+    finalP = "consolidado/consolidado_feria_precios.xlsx"
     # print(len(archivos))
     
     '''if (os.path.isfile(finalP)):
@@ -135,7 +135,7 @@ def consolidarCantidad():
     filesC = glob.glob(fileC)
 
     archivosC = np.array(filesC)
-    finalC = 'consolidado/consolidado_feria_cantidad.xlsx'
+    finalC = "consolidado/consolidado_feria_cantidad.xlsx"
     # print(len(archivos))
     
     '''if (os.path.isfile(finalC)):
