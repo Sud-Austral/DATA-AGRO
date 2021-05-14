@@ -104,7 +104,7 @@ def consolidarPrecios():
     filesP = glob.glob(fileP)
 
     archivosP = np.array(filesP)
-    finalP = "consolidado/consolidado_feria_precios.xlsx"
+    # finalP = "consolidado/consolidado_feria_precios.xlsx"
     # print(len(archivos))
     
     '''if (os.path.isfile(finalP)):
@@ -114,21 +114,21 @@ def consolidarPrecios():
         workbookP.close()'''
     
     try:
-        os.remove(finalP)
+        os.remove("consolidado/consolidado_feria_precios.xlsx")
     except:
-        workbookP = xlsxwriter.Workbook(finalP)
+        workbookP = xlsxwriter.Workbook("consolidado/consolidado_feria_precios.xlsx")
         workbookP.close()
         
     for i in range(len(filesP)):
         
-        df_inicialP = pd.read_excel(finalP)
+        df_inicialP = pd.read_excel("consolidado/consolidado_feria_precios.xlsx")
         df_inicialP
 
-        if(str(archivosP[i])!=finalP):
+        if(str(archivosP[i])!="consolidado/consolidado_feria_precios.xlsx"):
             dfP = pd.read_excel(archivosP[i])
 
             nP = df_inicialP.append([dfP])
-            nP.to_excel(finalP, index=False)
+            nP.to_excel("consolidado/consolidado_feria_precios.xlsx", index=False)
 
 def consolidarCantidad():
     fileC = "files/consolidados_cantidad/*.xlsx"
