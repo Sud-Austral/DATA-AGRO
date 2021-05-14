@@ -49,7 +49,7 @@ def normalize(s):
     return s
 
 def filesData():
-    file = "files/*.xlsx"
+    file = "DATAAGRO_Ferias/files/*.xlsx"
     files = glob.glob(file)
 
     archivos = np.array(files)
@@ -64,9 +64,9 @@ def filesData():
         # print(name)
         
         precios = pd.concat([tabla1(f), tabla2(f)])
-        precios.to_excel("files/consolidados_precios/" + str(name) + "_precios.xlsx", index=False)
+        precios.to_excel("DATAAGRO_Ferias/files/consolidados_precios/" + str(name) + "_precios.xlsx", index=False)
 
-        tabla3(f).to_excel("files/consolidados_cantidad/" + str(name) + "_cantidad.xlsx", index=False)
+        tabla3(f).to_excel("DATAAGRO_Ferias/files/consolidados_cantidad/" + str(name) + "_cantidad.xlsx", index=False)
     # print(len(archivos))
     
     consolidarPrecios()
@@ -100,24 +100,24 @@ def tabla2(namefile):
     return df2
 
 def consolidarPrecios():
-    fileP = "files/consolidados_precios/*.xlsx"
+    fileP = "DATAAGRO_Ferias/files/consolidados_precios/*.xlsx"
     filesP = glob.glob(fileP)
 
     archivosP = np.array(filesP)
     finalP = "DATAAGRO_Ferias/consolidado/consolidado_feria_precios.xlsx"
     # print(len(archivos))
     
-    if (os.path.isfile(finalP)):
+    '''if (os.path.isfile(finalP)):
         os.remove(finalP)
     else: 
         workbookP = xlsxwriter.Workbook(finalP)
-        workbookP.close()
+        workbookP.close()'''
     
-    '''try:
+    try:
         os.remove(finalP)
     except:
         workbookP = xlsxwriter.Workbook(finalP)
-        workbookP.close()'''
+        workbookP.close()
         
     for i in range(len(filesP)):
         
@@ -131,24 +131,24 @@ def consolidarPrecios():
             nP.to_excel(finalP, index=False)
 
 def consolidarCantidad():
-    fileC = "files/consolidados_cantidad/*.xlsx"
+    fileC = "DATAAGRO_Ferias/files/consolidados_cantidad/*.xlsx"
     filesC = glob.glob(fileC)
 
     archivosC = np.array(filesC)
     finalC = "DATAAGRO_Ferias/consolidado/consolidado_feria_cantidad.xlsx"
     # print(len(archivos))
     
-    if (os.path.isfile(finalC)):
+    '''if (os.path.isfile(finalC)):
         os.remove(finalC)
     else: 
         workbookC = xlsxwriter.Workbook(finalC)
-        workbookC.close()
+        workbookC.close()'''
     
-    '''try:
+    try:
         os.remove(finalC)
     except:
         workbookC = xlsxwriter.Workbook(finalC)
-        workbookC.close()'''
+        workbookC.close()
         
     for i in range(len(filesC)):
         
@@ -174,7 +174,7 @@ def tabla3(namefile):
     return df3
 
 def cantidadArchivos():
-    file = "files/*.xlsx"
+    file = "DATAAGRO_Ferias/files/*.xlsx"
     files = glob.glob(file)
 
     archivos = np.array(files)
