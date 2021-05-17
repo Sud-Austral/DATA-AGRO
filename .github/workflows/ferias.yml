@@ -24,7 +24,11 @@ jobs:
 
     - name: Ejecutando archivo PY
       run: |
-        python DATAAGRO_Ferias/Servidor.py
+        cd DATAAGRO_Ferias
+        python Servidor.py
+        
+      # python DATAAGRO_Ferias/Servidor.py
+
 
     - uses: stefanzweifel/git-auto-commit-action@v2
       with:
