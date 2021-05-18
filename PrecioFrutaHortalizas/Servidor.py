@@ -388,6 +388,10 @@ def consolidadoHortaliza():
 
         if (_prod == "Oleaginosos"):
             _prod = "Frutos oleaginosos"
+
+        elif(_cate == "Breva"):
+            _cate = "Higo"
+            
         else:
             pass
 
