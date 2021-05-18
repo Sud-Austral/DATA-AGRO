@@ -297,7 +297,7 @@ def guardarRepositorio():
 
 def consolidadoFruta():
     print("Creando consolidado Frutas")
-    dfC = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
+    dfC = pd.read_excel("Consolidado/FrutaConsolidado.xlsx")
     
     conection = pyodbc.connect("Driver={SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789");
     cursor = conection.cursor();
@@ -367,12 +367,12 @@ def consolidadoFruta():
         # print(idP)
 
     data = pd.DataFrame(datos)
-    data.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
+    data.to_excel("Consolidado/FrutaConsolidado.xlsx", index=False)
     print("Consolidado Frutas")
 
 def consolidadoHortaliza():
     print("Creando consolidado Hortalizas")
-    dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
+    dfH = pd.read_excel("Consolidado/HortalizaConsolidado.xlsx")
     
     conection = pyodbc.connect("Driver={SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789");
     cursor = conection.cursor();
@@ -428,7 +428,7 @@ def consolidadoHortaliza():
         # print(idP)
 
     data = pd.DataFrame(datos)
-    data.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx", index=False)
+    data.to_excel("Consolidado/HortalizaConsolidado.xlsx", index=False)
     print("Consolidado Hortalizas")
 
 
