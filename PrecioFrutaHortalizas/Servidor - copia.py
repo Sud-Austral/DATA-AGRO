@@ -7,7 +7,6 @@ import openpyxl
 import git
 import requests
 from os import remove
-import pyodbc
 
 def ls(ruta = getcwd()):
     return [arch.name for arch in scandir(ruta) if arch.is_file()]
@@ -105,7 +104,7 @@ def diccionario_auxiliar(Mercado, Region, Fecha, Codreg, Tipo, Categoria, Produc
 
 def convertirFecha(fecha):
     if(type(fecha) == str):
-        return datetime.datetime.strptime("%d-%m-%Y")
+        return datetime.datetime.strptime(string,"%d-%m-%Y")
     return fecha
 
 def Actualizar_Datos(Archivos):
@@ -295,224 +294,12 @@ def guardarRepositorio():
 
     return
 
-def consolidadoFruta():
-    print("Creando consolidado Frutas")
-    dfC = pd.read_excel("Consolidado/FrutaConsolidado.xlsx")
-    
-    conection = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
-    cursor = conection.cursor()
-    
-    
-    datos = []
-
-    for i, index in dfC.iterrows():
-
-        # Se hicieron cambios en los campos ya que estaban mal escritos en el consilidado
-
-        #Producto
-        _cate = dfC["Categoría"][i]
-
-        if (_cate == "Oleaginosos"):
-            _cate = "Frutos oleaginosos"
-
-        elif(_cate == "Breva"):
-             _cate = "Higo"
-
-        else:
-            pass
-
-        query = "SELECT * FROM PRODUCTO WHERE nombre = '" + str(_cate) + "'"
-        dfResult = pd.read_sql(query, conection)
-
-        dfResult.to_dict('list')
-
-        try:
-            idD = dfResult["id"][0]
-        except:
-            idD = ""
-
-
-        # Categoría
-        _producto = dfC["Producto"][i]
-
-        query = "SELECT * FROM CATEGORIA WHERE nombre = '" + str(_producto) + "'"
-        dfResultP = pd.read_sql(query, conection)
-
-        dfResultP.to_dict('list')
-
-        try:
-            idP = dfResultP["id"][0]
-        except:
-            idP = ""
-
-        mer = dfC["Mercado"][i]
-        reg = dfC["Región"][i]
-        fec = dfC["Fecha"][i]
-        codR = dfC["Codreg"][i]
-        tipo = dfC["Tipo"][i]
-        cate = dfC["Categoría"][i]
-        prod = dfC["Producto"][i]
-        var = dfC["Variedad"][i]
-        cal = dfC["Calidad"][i]
-        vol = dfC["Volumen"][i]
-        pmin = dfC["Precio mínimo"][i]
-        pm = dfC["Precio máximo"][i]
-        ppp = dfC["Precio promedio ponderado"][i]
-        uc = dfC["Unidad de comercialización"][i]
-        ori = dfC["Origen"][i]
-        pkg = dfC["Precio $/Kg"][i]
-        kgu = dfC["Kg / unidad"][i]
-
-        merId = mercadoID(dfC["Mercado"][i])
-
-        diccionario = registros(merId, mer, reg, fec, codR, tipo, idD, cate, idP, prod, var, cal, vol, pmin, pm, ppp, uc, ori, pkg, kgu)
-        datos.append(diccionario.copy())
-
-        # print(idD)
-        # print(idP)
-
-    data = pd.DataFrame(datos)
-    data.to_excel("Consolidado/FrutaConsolidado.xlsx", index=False)
-    print("Consolidado Frutas")
-
-def consolidadoHortaliza():
-    print("Creando consolidado Hortalizas")
-    dfH = pd.read_excel("Consolidado/HortalizaConsolidado.xlsx")
-    
-    conection = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
-    cursor = conection.cursor()
-    
-    datos = []
-
-    for i, index in dfH.iterrows():
-
-        # Se hicieron cambios en los campos ya que estaban mal escritos en el consilidado
-
-        #Producto
-        _prod = dfH["Producto"][i]
-
-        if (_prod == "Oleaginosos"):
-            _prod = "Frutos oleaginosos"
-        else:
-            pass
-
-        query = "SELECT * FROM CATEGORIA WHERE nombre = '" + str(_prod) + "'"
-        dfResult = pd.read_sql(query, conection)
-
-        dfResult.to_dict('list')
-
-        try:
-            idD = dfResult["id"][0]
-        except:
-            idD = ""
-
-
-        mer = dfH["Mercado"][i]
-        reg = dfH["Región"][i]
-        fec = dfH["Fecha"][i]
-        codR = dfH["Codreg"][i]
-        prod = dfH["Producto"][i]
-        var = dfH["Variedad"][i]
-        cal = dfH["Calidad"][i]
-        vol = dfH["Volumen"][i]
-        pmin = dfH["Precio mínimo"][i]
-        pm = dfH["Precio máximo"][i]
-        ppp = dfH["Precio promedio ponderado"][i]
-        uc = dfH["Unidad de comercialización"][i]
-        ori = dfH["Origen"][i]
-        pkg = dfH["Precio $/Kg"][i]
-        kgu = dfH["Kg o Unidades"][i]
-        clasi = dfH["Clasificación"][i]
-
-        merId = mercadoID(dfH["Mercado"][i])
-
-        diccionario = registros2(merId, mer, reg, fec, codR, idD, prod, var, cal, vol, pmin, pm, ppp, uc, ori, pkg, kgu, clasi)
-        datos.append(diccionario.copy())
-
-        # print(idD)
-        # print(idP)
-
-    data = pd.DataFrame(datos)
-    data.to_excel("Consolidado/HortalizaConsolidado.xlsx", index=False)
-    print("Consolidado Hortalizas")
-
-
-def registros(meID, Mercado, Region, Fecha, Codreg, Tipo, cateID, Categoria, prodID, Producto, Variedad, Calidad, Volumen, PrecioMin, PrecioMax, ppp, UnidadComer, Origen, PrecioKg, KgUnidad):
-    diccionario = {}
-    diccionario["Mercado ID"] = meID
-    diccionario["Mercado"] = Mercado
-    diccionario["Región"] = Region
-    diccionario["Fecha"] = Fecha
-    diccionario["Codreg"] = Codreg
-    diccionario["Tipo"] = Tipo
-    diccionario["Producto ID"] = cateID
-    diccionario["Producto"] = Categoria
-    diccionario["Categoría ID"] = prodID
-    diccionario["Categoría"] = Producto
-    diccionario["Variedad"] = Variedad
-    diccionario["Calidad"] = Calidad
-    diccionario["Volumen"] = Volumen
-    diccionario["Precio mínimo"] = PrecioMin
-    diccionario["Precio máximo"] = PrecioMax
-    diccionario["Precio promedio ponderado"] = ppp
-    diccionario["Unidad de comercialización"] = UnidadComer
-    diccionario["Origen"] = Origen
-    diccionario["Precio $/Kg"] = PrecioKg
-    diccionario["Kg / unidad"] = KgUnidad
-
-    return diccionario
-
-def registros2(meID, Mercado, Region, Fecha, Codreg, prodID, Producto, Variedad, Calidad, Volumen, PrecioMin, PrecioMax, ppp, UnidadComer, Origen, PrecioKg, KgUnidad, clasi):
-    diccionario = {}
-    diccionario["Mercado ID"] = meID
-    diccionario["Mercado"] = Mercado
-    diccionario["Región"] = Region
-    diccionario["Fecha"] = Fecha
-    diccionario["Codreg"] = Codreg
-    diccionario["Categoría ID"] = prodID
-    diccionario["Categoría"] = Producto
-    diccionario["Variedad"] = Variedad
-    diccionario["Calidad"] = Calidad
-    diccionario["Volumen"] = Volumen
-    diccionario["Precio mínimo"] = PrecioMin
-    diccionario["Precio máximo"] = PrecioMax
-    diccionario["Precio promedio ponderado"] = ppp
-    diccionario["Unidad de comercialización"] = UnidadComer
-    diccionario["Origen"] = Origen
-    diccionario["Precio $/Kg"] = PrecioKg
-    diccionario["Kg o Unidades"] = KgUnidad
-    diccionario["Clasificación"] = clasi
-
-    return diccionario
-
-_mercadoID = {'Agrícola del Norte S.A. de Arica':'1', 
-              'Comercializadora del Agro de Limarí':'2',
-              'Femacal de La Calera':'3', 
-              'Feria Lagunitas de Puerto Montt':'4',
-              'Macroferia Regional de Talca':'5', 
-              'Mercado Mayorista Lo Valledor de Santiago':'6',
-              'Terminal Hortofrutícola Agro Chillán':'7', 
-              'Terminal La Palmera de La Serena':'8',
-              'Vega Central Mapocho de Santiago':'9', 
-              'Vega Modelo de Temuco':'10',
-              'Vega Monumental Concepción':'11', 
-              'Mapocho Venta Directa de Santiago':'12'}
-
-def mercadoID(mercado):
-    
-    value = 0
-    value = _mercadoID[mercado]
-        
-    return value
-
 def Ciclo():
     Archivos = Descargar_Archivos()
     Archivos = lsExcel()
     if(len(Archivos) > 0):
         Actualizar_Datos(Archivos)
         guardarRepositorio()
-        consolidadoHortaliza()
-        consolidadoFruta()
         time.sleep(60 * 60 * 24)
     else:
         print("No hay datos que actualizar")
