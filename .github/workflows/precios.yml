@@ -1,8 +1,7 @@
 name: Precios AGRO
 
 on:
-    schedule:
-      - cron:  '0 */12 * * *'
+    push
 
 jobs:
   build:

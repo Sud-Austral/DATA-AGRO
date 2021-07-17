@@ -1,7 +1,8 @@
 name: AGRO FERIAS
 
 on:
-    push
+    schedule:
+      - cron:  '0 */12 * * *'
 
 jobs:
   build:
