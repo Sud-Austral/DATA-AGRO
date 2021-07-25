@@ -137,7 +137,7 @@ def consolidarCantidad():
     filesC = glob.glob(fileC)
 
     archivosC = np.array(filesC)
-    finalC = "DATAAGRO_Ferias/consolidado/consolidado_feria_cantidad.xlsx"
+    finalC = "../DATAAGRO_Ferias/consolidado/consolidado_feria_cantidad.xlsx"
     # print(len(archivos))
     
     '''if (os.path.isfile(finalC)):
