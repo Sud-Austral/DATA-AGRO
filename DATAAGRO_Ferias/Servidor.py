@@ -105,7 +105,7 @@ def consolidarPrecios():
     filesP = glob.glob(fileP)
 
     archivosP = np.array(filesP)
-    finalP = "DATAAGRO_Ferias/consolidado/consolidado_feria_precios.xlsx"
+    finalP = "../DATAAGRO_Ferias/consolidado/consolidado_feria_precios.xlsx"
     # print(len(archivos))
     
     '''if (os.path.isfile(finalP)):
