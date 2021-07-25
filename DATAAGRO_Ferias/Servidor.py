@@ -49,7 +49,8 @@ def normalize(s):
     return s
 
 def filesData():
-    file = "DATAAGRO_Ferias/files/*.xlsx"
+    # file = "DATAAGRO_Ferias/files/*.xlsx"
+    file = "files/*.xlsx"
     files = glob.glob(file)
 
     archivos = np.array(files)
@@ -65,9 +66,11 @@ def filesData():
         # print(name)
         
         precios = pd.concat([tabla1(f), tabla2(f)])
-        precios.to_excel("DATAAGRO_Ferias/files/consolidados_precios/" + str(name) + "_precios.xlsx", index=False)
+        # precios.to_excel("DATAAGRO_Ferias/files/consolidados_precios/" + str(name) + "_precios.xlsx", index=False)
+        precios.to_excel("files/consolidados_precios/" + str(name) + "_precios.xlsx", index=False)
 
-        tabla3(f).to_excel("DATAAGRO_Ferias/files/consolidados_cantidad/" + str(name) + "_cantidad.xlsx", index=False)
+        # tabla3(f).to_excel("DATAAGRO_Ferias/files/consolidados_cantidad/" + str(name) + "_cantidad.xlsx", index=False)
+        tabla3(f).to_excel("files/consolidados_cantidad/" + str(name) + "_cantidad.xlsx", index=False)
     # print(len(archivos))
     
     consolidarPrecios()
@@ -101,11 +104,13 @@ def tabla2(namefile):
     return df2
 
 def consolidarPrecios():
-    fileP = "DATAAGRO_Ferias/files/consolidados_precios/*.xlsx"
+    # fileP = "DATAAGRO_Ferias/files/consolidados_precios/*.xlsx"
+    fileP = "files/consolidados_precios/*.xlsx"
     filesP = glob.glob(fileP)
 
     archivosP = np.array(filesP)
-    finalP = "DATAAGRO_Ferias/consolidado/consolidado_feria_precios.xlsx"
+    # finalP = "DATAAGRO_Ferias/consolidado/consolidado_feria_precios.xlsx"
+    finalP = "consolidado/consolidado_feria_precios.xlsx"
     # print(len(archivos))
     
     if (os.path.isfile(finalP)):
@@ -132,11 +137,13 @@ def consolidarPrecios():
             nP.to_excel(finalP, index=False)
 
 def consolidarCantidad():
-    fileC = "DATAAGRO_Ferias/files/consolidados_cantidad/*.xlsx"
+    # fileC = "DATAAGRO_Ferias/files/consolidados_cantidad/*.xlsx"
+    fileC = "files/consolidados_cantidad/*.xlsx"
     filesC = glob.glob(fileC)
 
     archivosC = np.array(filesC)
-    finalC = "DATAAGRO_Ferias/consolidado/consolidado_feria_cantidad.xlsx"
+    # finalC = "DATAAGRO_Ferias/consolidado/consolidado_feria_cantidad.xlsx"
+    finalC = "consolidado/consolidado_feria_cantidad.xlsx"
     # print(len(archivos))
     
     '''if (os.path.isfile(finalC)):
@@ -175,7 +182,8 @@ def tabla3(namefile):
     return df3
 
 def cantidadArchivos():
-    file = "DATAAGRO_Ferias/files/*.xlsx"
+    # file = "DATAAGRO_Ferias/files/*.xlsx"
+    file = "files/*.xlsx"
     files = glob.glob(file)
 
     archivos = np.array(files)
@@ -208,7 +216,8 @@ def descargarDatos():
 
                 url = descarga.get_attribute("href")
                 file = requests.get(url)
-                open("DATAAGRO_Ferias/files/" + str(semana.text) + ".xlsx", "wb").write(file.content)
+                # open("DATAAGRO_Ferias/files/" + str(semana.text) + ".xlsx", "wb").write(file.content)
+                open("files/" + str(semana.text) + ".xlsx", "wb").write(file.content)
 
 
             except:
