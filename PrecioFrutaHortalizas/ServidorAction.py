@@ -265,10 +265,12 @@ def Actualizar_Datos(Archivos):
     #fruta_salida = datosFruta
     #hortaliza_salida = datosHortaliza
     hortaliza_salida["Clasificación"] = "Hortaliza"
+
+    # Archivos consolidados HECTOR
     fruta_salida.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
     hortaliza_salida.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx", index=False)
     return
-
+    
 def Fecha_Actual_Fruta():
     return max(ref_frutas()["Fecha"])
 
