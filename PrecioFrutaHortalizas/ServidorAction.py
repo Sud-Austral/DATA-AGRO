@@ -415,7 +415,10 @@ def consolidadoHortaliza():
         reg = dfH["Región"][i]
         fec = dfH["Fecha"][i]
         codR = dfH["Codreg"][i]
-        prod = dfH["Producto"][i]
+
+        categId = dfH["Categoría ID"][i]
+        categ = dfH["Categoría"][i]
+
         var = dfH["Variedad"][i]
         cal = dfH["Calidad"][i]
         vol = dfH["Volumen"][i]
@@ -430,7 +433,7 @@ def consolidadoHortaliza():
 
         merId = mercadoID(dfH["Mercado"][i])
 
-        diccionario = registros2(merId, mer, reg, fec, codR, idD, prod, var, cal, vol, pmin, pm, ppp, uc, ori, pkg, kgu, clasi)
+        diccionario = registros2(merId, mer, reg, fec, codR, categId, categ, var, cal, vol, pmin, pm, ppp, uc, ori, pkg, kgu, clasi)
         datos.append(diccionario.copy())
 
         # print(idD)
