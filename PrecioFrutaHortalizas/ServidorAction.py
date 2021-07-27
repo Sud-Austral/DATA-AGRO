@@ -300,7 +300,10 @@ def Fecha_Actual_Hortaliza():
     return max(ref_hortalizas()["Fecha"])
 
 dfC = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
-    
+
+referenciaProd = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaProducto.xlsx") 
+referenciaCate = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaCategoría.xlsx") 
+
 conection = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
 cursor = conection.cursor()
 
@@ -310,6 +313,9 @@ def consolidadoFruta():
     datos = []
 
     for i, index in dfC.iterrows():
+        
+        dfprod = referenciaProd
+        dfcatego = referenciaCate
 
         # Se hicieron cambios en los campos ya que estaban mal escritos en el consilidado
 
@@ -325,13 +331,12 @@ def consolidadoFruta():
         else:
             pass
 
-        query = "SELECT * FROM PRODUCTO WHERE nombre = '" + str(_cate) + "'"
-        dfResult = pd.read_sql(query, conection)
+        dfprod = dfprod[dfprod["nombre"] == _cate]
 
-        dfResult.to_dict('list')
+        dfprod.to_dict('list')
 
         try:
-            idD = dfResult["id"][0]
+            idD = dfprod["id"][0]
         except:
             idD = ""
 
@@ -339,13 +344,12 @@ def consolidadoFruta():
         # Categoría
         _producto = dfC["Producto"][i]
 
-        query = "SELECT * FROM CATEGORIA WHERE nombre = '" + str(_producto) + "'"
-        dfResultP = pd.read_sql(query, conection)
+        dfcatego = dfcatego[dfcatego["nombre"] == _cate]
 
-        dfResultP.to_dict('list')
+        dfcatego.to_dict('list')
 
         try:
-            idP = dfResultP["id"][0]
+            idP = dfcatego["id"][0]
         except:
             idP = ""
 
@@ -376,24 +380,21 @@ def consolidadoFruta():
         # print(idP)
 
     data = pd.DataFrame(datos)
-    data.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidadoHector.xlsx", index=False)
+    data.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
     print("Consolidado Frutas")
 
 dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
-    
-conection = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
-cursor = conection.cursor()
+
 
 def consolidadoHortaliza():
     print("Creando consolidado Hortalizas")
-    
-    
+
     datos = []
 
     for i, index in dfH.iterrows():
-
+        dfprod1 = referenciaProd
         # Se hicieron cambios en los campos ya que estaban mal escritos en el consilidado
-
+    
         #Producto
         _prod = dfH["Categoría"][i]
 
@@ -402,13 +403,12 @@ def consolidadoHortaliza():
         else:
             pass
 
-        query = "SELECT * FROM CATEGORIA WHERE nombre = '" + str(_prod) + "'"
-        dfResult = pd.read_sql(query, conection)
+        dfprod1 = dfprod1[dfprod1["nombre"] == _prod]
 
-        dfResult.to_dict('list')
+        dfprod1.to_dict('list')
 
         try:
-            idD = dfResult["id"][0]
+            idD = dfprod1["id"][0]
         except:
             idD = ""
 
@@ -442,7 +442,7 @@ def consolidadoHortaliza():
         # print(idP)
 
     data = pd.DataFrame(datos)
-    data.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidadoHector.xlsx", index=False)
+    data.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx", index=False)
     print("Consolidado Hortalizas")
 
 def registros(meID, Mercado, Region, Fecha, Codreg, Tipo, cateID, Categoria, prodID, Producto, Variedad, Calidad, Volumen, PrecioMin, PrecioMax, ppp, UnidadComer, Origen, PrecioKg, KgUnidad):
