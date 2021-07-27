@@ -393,7 +393,7 @@ def consolidadoHortaliza():
         # Se hicieron cambios en los campos ya que estaban mal escritos en el consilidado
 
         #Producto
-        _prod = dfH["Producto"][i]
+        _prod = dfH["Categoría"][i]
 
         if (_prod == "Oleaginosos"):
             _prod = "Frutos oleaginosos"
