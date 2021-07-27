@@ -297,13 +297,13 @@ def Fecha_Actual_Fruta():
 def Fecha_Actual_Hortaliza():
     return max(ref_hortalizas()["Fecha"])
 
+conection = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
+cursor = conection.cursor()
+
+dfC = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
+
 def consolidadoFruta():
     print("Creando consolidado Frutas")
-    dfC = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
-    
-    conection = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
-    cursor = conection.cursor()
-    
     
     datos = []
 
@@ -374,15 +374,16 @@ def consolidadoFruta():
         # print(idP)
 
     data = pd.DataFrame(datos)
-    data.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
+    data.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado_test_Hector.xlsx", index=False)
     print("Consolidado Frutas")
+
+dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
+    
+conection = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
+cursor = conection.cursor()
 
 def consolidadoHortaliza():
     print("Creando consolidado Hortalizas")
-    dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
-    
-    conection = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
-    cursor = conection.cursor()
     
     datos = []
 
@@ -435,7 +436,7 @@ def consolidadoHortaliza():
         # print(idP)
 
     data = pd.DataFrame(datos)
-    data.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx", index=False)
+    data.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado_test_Hector.xlsx", index=False)
     print("Consolidado Hortalizas")
 
 def registros(meID, Mercado, Region, Fecha, Codreg, Tipo, cateID, Categoria, prodID, Producto, Variedad, Calidad, Volumen, PrecioMin, PrecioMax, ppp, UnidadComer, Origen, PrecioKg, KgUnidad):
