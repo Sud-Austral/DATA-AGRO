@@ -374,10 +374,10 @@ def consolidadoFruta():
         # print(idP)
 
     data = pd.DataFrame(datos)
-    data.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
+    data.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidadoHector.xlsx", index=False)
     print("Consolidado Frutas")
 
-dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidadoHector.xlsx")
+dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
     
 conection = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
 cursor = conection.cursor()
