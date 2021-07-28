@@ -13,8 +13,8 @@ def Ciclo():
     Archivos = lsExcel()
     if(len(Archivos) > 0):
         Actualizar_Datos(Archivos)
-        consolidadoHortaliza()
-        consolidadoFruta()
+        # consolidadoHortaliza()
+        # consolidadoFruta()
     else:
         print("No hay datos que actualizar")
     print("Ciclo completo")
@@ -267,22 +267,22 @@ def Actualizar_Datos(Archivos):
     hortaliza_salida["Clasificación"] = "Hortaliza"
 
     # Archivos consolidados HECTOR
-    fruta_salida.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
-    hortaliza_salida.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx", index=False)
+    fruta_salida.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidadoHector.xlsx", index=False)
+    hortaliza_salida.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidadoHector.xlsx", index=False)
     return
     
 def Fecha_Actual_Fruta():
     return max(ref_frutas()["Fecha"])
 
 def ref_frutas():
-    dataReferenciaFruta = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
+    dataReferenciaFruta = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidadoHector.xlsx")
     return dataReferenciaFruta
 
 def ls(ruta = getcwd()):
     return [arch.name for arch in scandir(ruta) if arch.is_file()]
 
 def ref_hortalizas():
-    dataReferenciaHortaliza = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
+    dataReferenciaHortaliza = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidadoHector.xlsx")
     return dataReferenciaHortaliza
 
 def ref_frutas1():
@@ -313,32 +313,33 @@ def consolidadoFruta():
     datos = []
 
     for i, index in dfC.iterrows():
-        
-        dfprod = referenciaProd
-        dfcatego = referenciaCate
-
+    
         # Se hicieron cambios en los campos ya que estaban mal escritos en el consilidado
-
+        cateReferencia = referenciaCate
         #Producto
         _cate = dfC["Categoría"][i]
-
+        print(_cate)
+        
         if (_cate == "Oleaginosos"):
             _cate = "Frutos oleaginosos"
 
         elif(_cate == "Breva"):
-             _cate = "Higo"
+            _cate = "Higo"
 
         else:
             pass
 
-        dfprod = dfprod[dfprod["nombre"] == _cate]
-
-        dfprod.to_dict('list')
+        #query = "SELECT * FROM CATEGORIA WHERE nombre = '" + str(_cate) + "'"
+        #dfResult = pd.read_sql(query, conection)
+        
+        cateReferencia = cateReferencia[cateReferencia["nombre"] == str(_cate)]
 
         try:
-            idD = dfprod["id"][0]
+            idD = cateReferencia["id"].to_list()
         except:
             idD = ""
+        
+        
 
 
         # Categoría
