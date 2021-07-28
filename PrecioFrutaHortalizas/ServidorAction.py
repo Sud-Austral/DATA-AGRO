@@ -406,6 +406,7 @@ def consolidadoFruta():
 dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
 
 def consolidadoHortaliza():
+    
     print("Creando consolidado Hortalizas")
 
     datos = []
