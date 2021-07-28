@@ -13,8 +13,8 @@ def Ciclo():
     Archivos = lsExcel()
     if(len(Archivos) > 0):
         Actualizar_Datos(Archivos)
-        # consolidadoHortaliza()
-        # consolidadoFruta()
+        consolidadoHortaliza()
+        consolidadoFruta()
     else:
         print("No hay datos que actualizar")
     print("Ciclo completo")
@@ -406,7 +406,7 @@ def consolidadoFruta():
 dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
 
 def consolidadoHortaliza():
-    
+
     print("Creando consolidado Hortalizas")
 
     datos = []
