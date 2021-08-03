@@ -15,6 +15,7 @@ def Ciclo():
         Actualizar_Datos(Archivos)
         consolidadoHortaliza()
         consolidadoFruta()
+        consolidadoSemanaDE()
     else:
         print("No hay datos que actualizar")
     print("Ciclo completo")
@@ -327,6 +328,12 @@ def consolidadoFruta():
         elif(_prod == "Breva"):
             _prod = "Higo"
 
+        elif(_prod == "Sandia"):
+            _prod = "Sandía"
+
+        elif(_prod == "Haba"):
+            _prod = "Habas"
+
         else:
             pass
 
@@ -418,11 +425,17 @@ def consolidadoHortaliza():
         _cate = dfH["Producto"][i]
 
         
-        if (_cate == "Oleaginosos"):
-            _cate = "Frutos oleaginosos"
+        if (_prod == "Oleaginosos"):
+            _prod = "Frutos oleaginosos"
 
-        elif(_cate == "Breva"):
-            _cate = "Higo"
+        elif(_prod == "Breva"):
+            _prod = "Higo"
+
+        elif(_prod == "Haba"):
+            _prod = "Habas"
+
+        elif(_prod == "Sandia"):
+            _prod = "Sandía"
 
         else:
             pass
@@ -557,6 +570,64 @@ def mercadoID(mercado):
     value = _mercadoID[mercado]
         
     return value
+
+def consolidadoSemanaDE():
+    for h in range(2):
+
+        if(h == 0):
+            df = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
+        else:
+            df = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
+
+        mercados = df["Mercado"].unique().tolist()
+        categoria = df["Categoría"].unique().tolist()
+
+        salida = []
+        salidaSub = []
+
+        for i in range(len(mercados)):
+            salidaSub = []
+
+            mer = mercados[i]    
+            dfMercado = df[df["Mercado"] == mer]
+
+            for j in range(len(categoria)):
+
+                cate = categoria[j]
+                dfCategoria = dfMercado[dfMercado["Categoría"] == categoria[j]]
+
+                std = dfCategoria["Precio $/Kg"].std()
+                # dfAux = dfCategoria[dfCategoria["Precio $/Kg"] < std]
+                dfAux = dfCategoria[dfCategoria["Precio $/Kg"] < dfCategoria["Precio $/Kg"].mean() + 3 * std]
+                dfAux = dfAux[dfAux["Precio $/Kg"] > dfAux["Precio $/Kg"].mean() - 3 * std]
+
+                salida.append(dfAux.copy())
+                salidaSub.append(dfAux.copy())
+
+                '''print("Mercado: " + mer)
+                print("Categoría: " + cate)
+                print("Desviación estándar: " + str(std))
+                print("Cantidad de registros (antes): " + str(len(dfCategoria)))
+                print("Cantidad de registros (después): " + str(len(dfAux)))
+
+                print("")'''
+
+                if(len(dfAux) > 0):
+                    subconjuntos = pd.concat(salidaSub)
+                    
+                    if(h == 0):
+                        subconjuntos.to_excel("PrecioFrutaHortalizas/Consolidado/logica_diaria/subcojuntos/Fruta, " +str(mer) + " - " +  str(cate) + ".xlsx", index=False)
+                    else:
+                        subconjuntos.to_excel("PrecioFrutaHortalizas/Consolidado/logica_diaria/subcojuntos/Hortaliza, " +str(mer) + " - " +  str(cate) + ".xlsx", index=False)
+                    salidaSub = []
+
+            # print("---------------------------------------------")
+
+        data = pd.concat(salida)
+        if(h == 0):
+            data.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
+        else:
+            data.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx", index=False)
 
 if __name__ == '__main__':
     print('El proceso ha comenzado.')
