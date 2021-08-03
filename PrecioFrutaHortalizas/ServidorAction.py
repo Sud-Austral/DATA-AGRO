@@ -425,17 +425,17 @@ def consolidadoHortaliza():
         _cate = dfH["Categoría"][i]
 
         
-        if (_prod == "Oleaginosos"):
-            _prod = "Frutos oleaginosos"
+        if (_cate == "Oleaginosos"):
+            _cate = "Frutos oleaginosos"
 
-        elif(_prod == "Breva"):
-            _prod = "Higo"
+        elif(_cate == "Breva"):
+            _cate = "Higo"
 
-        elif(_prod == "Haba"):
-            _prod = "Habas"
+        elif(_cate == "Haba"):
+            _cate = "Habas"
 
-        elif(_prod == "Sandia"):
-            _prod = "Sandía"
+        elif(_cate == "Sandia"):
+            _cate = "Sandía"
 
         else:
             pass
