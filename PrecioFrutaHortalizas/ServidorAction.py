@@ -422,7 +422,7 @@ def consolidadoHortaliza():
     
         cateReferencia = referenciaCate
         
-        _cate = dfH["Producto"][i]
+        _cate = dfH["Categoría"][i]
 
         
         if (_prod == "Oleaginosos"):
