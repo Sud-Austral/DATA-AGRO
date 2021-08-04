@@ -14,7 +14,7 @@ def Ciclo():
     if(len(Archivos) > 0):
         Actualizar_Datos(Archivos)
         consolidadoHortaliza()
-        consolidadoFruta()
+        # consolidadoFruta()
     else:
         print("No hay datos que actualizar")
     print("Ciclo completo")
@@ -297,6 +297,12 @@ def Fecha_Actual_Fruta():
 def Fecha_Actual_Hortaliza():
     return max(ref_hortalizas()["Fecha"])
 
+dfC = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
+dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
+
+referenciaProd = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaProducto.xlsx") 
+referenciaCate = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaCategoría.xlsx") 
+
 def consolidadoFruta():
     print("Creando consolidado Frutas")
     dfC = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
@@ -379,14 +385,16 @@ def consolidadoFruta():
 
 def consolidadoHortaliza():
     print("Creando consolidado Hortalizas")
-    dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
+    # dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
     
-    conection = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
-    cursor = conection.cursor()
+    # conection = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
+    # cursor = conection.cursor()
     
     datos = []
 
     for i, index in dfH.iterrows():
+
+        cateReferencia = referenciaCate
 
         # Se hicieron cambios en los campos ya que estaban mal escritos en el consilidado
 
@@ -395,18 +403,24 @@ def consolidadoHortaliza():
 
         if (_prod == "Oleaginosos"):
             _prod = "Frutos oleaginosos"
+
+        elif(_prod == "Breva"):
+            _prod = "Higo"
+
+        elif(_prod == "Haba"):
+            _prod = "Habas"
+
         else:
             pass
 
-        query = "SELECT * FROM CATEGORIA WHERE nombre = '" + str(_prod) + "'"
-        dfResult = pd.read_sql(query, conection)
-
-        dfResult.to_dict('list')
+        cateReferencia = cateReferencia[cateReferencia["nombre"] == _prod]
 
         try:
-            idD = dfResult["id"][0]
+            idD = cateReferencia["id"].to_list()
         except:
             idD = ""
+
+        idD = str(idD).replace('[','').replace(']','')
 
 
         mer = dfH["Mercado"][i]
