@@ -410,6 +410,9 @@ def consolidadoHortaliza():
         elif(_prod == "Haba"):
             _prod = "Habas"
 
+        elif(_prod == "Sandia"):
+            _prod = "Sandía"
+
         else:
             pass
 
