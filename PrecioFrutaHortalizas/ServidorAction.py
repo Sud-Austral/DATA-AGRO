@@ -314,136 +314,182 @@ def consolidadoFruta():
     datos = []
 
     for i, index in dfC.iterrows():
+    
+        prodReferencia = referenciaProd
+        cateReferencia = referenciaCate
         
-        dfprod = referenciaProd
-        dfcatego = referenciaCate
+        _prod = dfC["Categoría"][i]
+        _cate = dfC["Producto"][i]
 
-        # Se hicieron cambios en los campos ya que estaban mal escritos en el consilidado
+        
+        if (_prod == "Oleaginosos"):
+            _prod = "Frutos oleaginosos"
 
-        #Producto
-        _cate = dfC["Categoría"][i]
-
-        if (_cate == "Oleaginosos"):
-            _cate = "Frutos oleaginosos"
-
-        elif(_cate == "Breva"):
-             _cate = "Higo"
+        elif(_prod == "Breva"):
+            _prod = "Higo"
 
         else:
             pass
 
-        dfprod = dfprod[dfprod["nombre"] == _cate]
-
-        dfprod.to_dict('list')
+        
+        prodReferencia = prodReferencia[prodReferencia["nombre"] == str(_prod)]
 
         try:
-            idD = dfprod["id"][0]
+            idD = prodReferencia["id"].to_list()
+            
+            # print(_prod)
+            # print("Producto ID: " + str(idD[0]))
         except:
             idD = ""
-
-
-        # Categoría
-        _producto = dfC["Producto"][i]
-
-        dfcatego = dfcatego[dfcatego["nombre"] == _cate]
-
-        dfcatego.to_dict('list')
+            
+        cateReferencia = cateReferencia[cateReferencia["nombre"] == str(_cate)]
 
         try:
-            idP = dfcatego["id"][0]
+            idP = cateReferencia["id"].to_list()
+            
+            mer = dfC["Mercado"][i]
+            reg = dfC["Región"][i]
+            fec = dfC["Fecha"][i]
+            codR = dfC["Codreg"][i]
+            tipo = dfC["Tipo"][i]
+            cate = dfC["Categoría"][i]
+            prod = dfC["Producto"][i]
+            var = dfC["Variedad"][i]
+            cal = dfC["Calidad"][i]
+            vol = dfC["Volumen"][i]
+            pmin = dfC["Precio mínimo"][i]
+            pm = dfC["Precio máximo"][i]
+            ppp = dfC["Precio promedio ponderado"][i]
+            uc = dfC["Unidad de comercialización"][i]
+            ori = dfC["Origen"][i]
+            pkg = dfC["Precio $/Kg"][i]
+            kgu = dfC["Kg / unidad"][i]
+
+            merId = mercadoID(dfC["Mercado"][i])
+
+            diccionario = registros(merId, mer, reg, fec, codR, tipo, idD[0], cate, idP[0], prod, var, cal, vol, pmin, pm, ppp, uc, ori, pkg, kgu)
+            datos.append(diccionario.copy())
+            # print(_cate)
+            # print("Categoría ID: " + str(idP[0]))
         except:
             idP = ""
 
-        mer = dfC["Mercado"][i]
-        reg = dfC["Región"][i]
-        fec = dfC["Fecha"][i]
-        codR = dfC["Codreg"][i]
-        tipo = dfC["Tipo"][i]
-        cate = dfC["Categoría"][i]
-        prod = dfC["Producto"][i]
-        var = dfC["Variedad"][i]
-        cal = dfC["Calidad"][i]
-        vol = dfC["Volumen"][i]
-        pmin = dfC["Precio mínimo"][i]
-        pm = dfC["Precio máximo"][i]
-        ppp = dfC["Precio promedio ponderado"][i]
-        uc = dfC["Unidad de comercialización"][i]
-        ori = dfC["Origen"][i]
-        pkg = dfC["Precio $/Kg"][i]
-        kgu = dfC["Kg / unidad"][i]
+            mer = dfC["Mercado"][i]
+            reg = dfC["Región"][i]
+            fec = dfC["Fecha"][i]
+            codR = dfC["Codreg"][i]
+            tipo = dfC["Tipo"][i]
+            cate = dfC["Categoría"][i]
+            prod = dfC["Producto"][i]
+            var = dfC["Variedad"][i]
+            cal = dfC["Calidad"][i]
+            vol = dfC["Volumen"][i]
+            pmin = dfC["Precio mínimo"][i]
+            pm = dfC["Precio máximo"][i]
+            ppp = dfC["Precio promedio ponderado"][i]
+            uc = dfC["Unidad de comercialización"][i]
+            ori = dfC["Origen"][i]
+            pkg = dfC["Precio $/Kg"][i]
+            kgu = dfC["Kg / unidad"][i]
 
-        merId = mercadoID(dfC["Mercado"][i])
+            merId = mercadoID(dfC["Mercado"][i])
 
-        diccionario = registros(merId, mer, reg, fec, codR, tipo, idD, cate, idP, prod, var, cal, vol, pmin, pm, ppp, uc, ori, pkg, kgu)
-        datos.append(diccionario.copy())
+            diccionario = registros(merId, mer, reg, fec, codR, tipo, idD, cate, idP, prod, var, cal, vol, pmin, pm, ppp, uc, ori, pkg, kgu)
+            datos.append(diccionario.copy())
 
         # print(idD)
         # print(idP)
 
     data = pd.DataFrame(datos)
-    data.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
+    data.to_excel("ConsolidadoDia/FrutaConsolidado.xlsx", index=False)
     print("Consolidado Frutas")
 
 dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
 
 
 def consolidadoHortaliza():
+
     print("Creando consolidado Hortalizas")
 
     datos = []
 
     for i, index in dfH.iterrows():
-        dfprod1 = referenciaProd
-        # Se hicieron cambios en los campos ya que estaban mal escritos en el consilidado
     
-        #Producto
-        _prod = dfH["Categoría"][i]
+        cateReferencia = referenciaCate
+        
+        _cate = dfH["Producto"][i]
 
-        if (_prod == "Oleaginosos"):
-            _prod = "Frutos oleaginosos"
+        
+        if (_cate == "Oleaginosos"):
+            _cate = "Frutos oleaginosos"
+
+        elif(_cate == "Breva"):
+            _cate = "Higo"
+
         else:
             pass
 
-        dfprod1 = dfprod1[dfprod1["nombre"] == _prod]
-
-        dfprod1.to_dict('list')
+        
+        cateReferencia = cateReferencia[cateReferencia["nombre"] == str(_cate)]
 
         try:
-            idD = dfprod1["id"][0]
+            idD = cateReferencia["id"].to_list()
+            
+            mer = dfH["Mercado"][i]
+            reg = dfH["Región"][i]
+            fec = dfH["Fecha"][i]
+            codR = dfH["Codreg"][i]
+            prod = dfH["Producto"][i]
+            var = dfH["Variedad"][i]
+            cal = dfH["Calidad"][i]
+            vol = dfH["Volumen"][i]
+            pmin = dfH["Precio mínimo"][i]
+            pm = dfH["Precio máximo"][i]
+            ppp = dfH["Precio promedio ponderado"][i]
+            uc = dfH["Unidad de comercialización"][i]
+            ori = dfH["Origen"][i]
+            pkg = dfH["Precio $/Kg"][i]
+            kgu = dfH["Kg o Unidades"][i]
+            clasi = dfH["Clasificación"][i]
+
+            merId = mercadoID(dfH["Mercado"][i])
+
+            diccionario = registros2(merId, mer, reg, fec, codR, idD[0], prod, var, cal, vol, pmin, pm, ppp, uc, ori, pkg, kgu, clasi)
+            datos.append(diccionario.copy())
+
+            # print(_prod)
+            # print("Categoría ID: " + str(idD[0]))
         except:
             idD = ""
 
 
-        mer = dfH["Mercado"][i]
-        reg = dfH["Región"][i]
-        fec = dfH["Fecha"][i]
-        codR = dfH["Codreg"][i]
+            mer = dfH["Mercado"][i]
+            reg = dfH["Región"][i]
+            fec = dfH["Fecha"][i]
+            codR = dfH["Codreg"][i]
+            prod = dfH["Producto"][i]
+            var = dfH["Variedad"][i]
+            cal = dfH["Calidad"][i]
+            vol = dfH["Volumen"][i]
+            pmin = dfH["Precio mínimo"][i]
+            pm = dfH["Precio máximo"][i]
+            ppp = dfH["Precio promedio ponderado"][i]
+            uc = dfH["Unidad de comercialización"][i]
+            ori = dfH["Origen"][i]
+            pkg = dfH["Precio $/Kg"][i]
+            kgu = dfH["Kg o Unidades"][i]
+            clasi = dfH["Clasificación"][i]
 
-        categId = dfH["Categoría ID"][i]
-        categ = dfH["Categoría"][i]
+            merId = mercadoID(dfH["Mercado"][i])
 
-        var = dfH["Variedad"][i]
-        cal = dfH["Calidad"][i]
-        vol = dfH["Volumen"][i]
-        pmin = dfH["Precio mínimo"][i]
-        pm = dfH["Precio máximo"][i]
-        ppp = dfH["Precio promedio ponderado"][i]
-        uc = dfH["Unidad de comercialización"][i]
-        ori = dfH["Origen"][i]
-        pkg = dfH["Precio $/Kg"][i]
-        kgu = dfH["Kg o Unidades"][i]
-        clasi = dfH["Clasificación"][i]
-
-        merId = mercadoID(dfH["Mercado"][i])
-
-        diccionario = registros2(merId, mer, reg, fec, codR, categId, categ, var, cal, vol, pmin, pm, ppp, uc, ori, pkg, kgu, clasi)
-        datos.append(diccionario.copy())
+            diccionario = registros2(merId, mer, reg, fec, codR, idD, prod, var, cal, vol, pmin, pm, ppp, uc, ori, pkg, kgu, clasi)
+            datos.append(diccionario.copy())
 
         # print(idD)
         # print(idP)
 
     data = pd.DataFrame(datos)
-    data.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx", index=False)
+    data.to_excel("ConsolidadoDia/HortalizaConsolidado.xlsx", index=False)
     print("Consolidado Hortalizas")
 
 def registros(meID, Mercado, Region, Fecha, Codreg, Tipo, cateID, Categoria, prodID, Producto, Variedad, Calidad, Volumen, PrecioMin, PrecioMax, ppp, UnidadComer, Origen, PrecioKg, KgUnidad):
