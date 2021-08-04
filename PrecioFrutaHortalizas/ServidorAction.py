@@ -301,7 +301,7 @@ def Fecha_Actual_Hortaliza():
 dfC = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado_SC.xlsx")
 dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado_SC.xlsx")
 
-# referenciaProd = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaProducto.xlsx") 
+referenciaProd = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaProducto.xlsx") 
 referenciaCate = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaCategoría.xlsx") 
 
 def consolidadoFruta():
