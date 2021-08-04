@@ -13,7 +13,7 @@ def Ciclo():
     Archivos = lsExcel()
     if(len(Archivos) > 0):
         Actualizar_Datos(Archivos)
-        # consolidadoHortaliza()
+        consolidadoHortaliza()
         # consolidadoFruta()
     else:
         print("No hay datos que actualizar")
@@ -274,14 +274,14 @@ def Fecha_Actual_Fruta():
     return max(ref_frutas()["Fecha"])
 
 def ref_frutas():
-    dataReferenciaFruta = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
+    dataReferenciaFruta = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado_SC.xlsx")
     return dataReferenciaFruta
 
 def ls(ruta = getcwd()):
     return [arch.name for arch in scandir(ruta) if arch.is_file()]
 
 def ref_hortalizas():
-    dataReferenciaHortaliza = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
+    dataReferenciaHortaliza = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado_SC.xlsx")
     return dataReferenciaHortaliza
 
 def ref_frutas1():
@@ -301,8 +301,8 @@ def Fecha_Actual_Hortaliza():
 dfC = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
 dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
 
-referenciaProd = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaProducto.xlsx") 
-referenciaCate = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaCategoría.xlsx") 
+# referenciaProd = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaProducto.xlsx") 
+referenciaCate = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaCategoría_SC.xlsx") 
 
 def consolidadoFruta():
     print("Creando consolidado Frutas")
