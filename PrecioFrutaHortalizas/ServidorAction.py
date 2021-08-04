@@ -298,11 +298,11 @@ def Fecha_Actual_Fruta():
 def Fecha_Actual_Hortaliza():
     return max(ref_hortalizas()["Fecha"])
 
-dfC = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
-dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
+dfC = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado_SC.xlsx")
+dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado_SC.xlsx")
 
 # referenciaProd = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaProducto.xlsx") 
-referenciaCate = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaCategoría_SC.xlsx") 
+referenciaCate = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaCategoría.xlsx") 
 
 def consolidadoFruta():
     print("Creando consolidado Frutas")
