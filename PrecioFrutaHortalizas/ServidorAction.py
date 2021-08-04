@@ -13,9 +13,8 @@ def Ciclo():
     Archivos = lsExcel()
     if(len(Archivos) > 0):
         Actualizar_Datos(Archivos)
-        consolidadoHortaliza()
-        consolidadoFruta()
-        consolidadoSemanaDE()
+        # consolidadoHortaliza()
+        # consolidadoFruta()
     else:
         print("No hay datos que actualizar")
     print("Ciclo completo")
@@ -266,12 +265,10 @@ def Actualizar_Datos(Archivos):
     #fruta_salida = datosFruta
     #hortaliza_salida = datosHortaliza
     hortaliza_salida["Clasificación"] = "Hortaliza"
-
-    # Archivos consolidados HECTOR
     fruta_salida.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
     hortaliza_salida.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx", index=False)
     return
-    
+
 def Fecha_Actual_Fruta():
     return max(ref_frutas()["Fecha"])
 
@@ -300,196 +297,145 @@ def Fecha_Actual_Fruta():
 def Fecha_Actual_Hortaliza():
     return max(ref_hortalizas()["Fecha"])
 
-dfC = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
-
-referenciaProd = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaProducto.xlsx") 
-referenciaCate = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaCategoría.xlsx") 
-
-conection = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
-cursor = conection.cursor()
-
 def consolidadoFruta():
-    print("Creando consolidado Frutas")   
+    print("Creando consolidado Frutas")
+    dfC = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
+    
+    conection = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
+    cursor = conection.cursor()
+    
     
     datos = []
 
     for i, index in dfC.iterrows():
-    
-        prodReferencia = referenciaProd
-        cateReferencia = referenciaCate
-        
-        _prod = dfC["Categoría"][i]
-        _cate = dfC["Producto"][i]
 
-        
-        if (_prod == "Oleaginosos"):
-            _prod = "Frutos oleaginosos"
+        # Se hicieron cambios en los campos ya que estaban mal escritos en el consilidado
 
-        elif(_prod == "Breva"):
-            _prod = "Higo"
+        #Producto
+        _cate = dfC["Categoría"][i]
 
-        else:
-            pass
-
-        
-        prodReferencia = prodReferencia[prodReferencia["nombre"] == str(_prod)]
-
-        try:
-            idD = prodReferencia["id"].to_list()
-            
-            # print(_prod)
-            # print("Producto ID: " + str(idD[0]))
-        except:
-            idD = ""
-            
-        cateReferencia = cateReferencia[cateReferencia["nombre"] == str(_cate)]
-
-        try:
-            idP = cateReferencia["id"].to_list()
-            
-            mer = dfC["Mercado"][i]
-            reg = dfC["Región"][i]
-            fec = dfC["Fecha"][i]
-            codR = dfC["Codreg"][i]
-            tipo = dfC["Tipo"][i]
-            cate = dfC["Categoría"][i]
-            prod = dfC["Producto"][i]
-            var = dfC["Variedad"][i]
-            cal = dfC["Calidad"][i]
-            vol = dfC["Volumen"][i]
-            pmin = dfC["Precio mínimo"][i]
-            pm = dfC["Precio máximo"][i]
-            ppp = dfC["Precio promedio ponderado"][i]
-            uc = dfC["Unidad de comercialización"][i]
-            ori = dfC["Origen"][i]
-            pkg = dfC["Precio $/Kg"][i]
-            kgu = dfC["Kg / unidad"][i]
-
-            merId = mercadoID(dfC["Mercado"][i])
-
-            diccionario = registros(merId, mer, reg, fec, codR, tipo, idD[0], cate, idP[0], prod, var, cal, vol, pmin, pm, ppp, uc, ori, pkg, kgu)
-            datos.append(diccionario.copy())
-            # print(_cate)
-            # print("Categoría ID: " + str(idP[0]))
-        except:
-            idP = ""
-
-            mer = dfC["Mercado"][i]
-            reg = dfC["Región"][i]
-            fec = dfC["Fecha"][i]
-            codR = dfC["Codreg"][i]
-            tipo = dfC["Tipo"][i]
-            cate = dfC["Categoría"][i]
-            prod = dfC["Producto"][i]
-            var = dfC["Variedad"][i]
-            cal = dfC["Calidad"][i]
-            vol = dfC["Volumen"][i]
-            pmin = dfC["Precio mínimo"][i]
-            pm = dfC["Precio máximo"][i]
-            ppp = dfC["Precio promedio ponderado"][i]
-            uc = dfC["Unidad de comercialización"][i]
-            ori = dfC["Origen"][i]
-            pkg = dfC["Precio $/Kg"][i]
-            kgu = dfC["Kg / unidad"][i]
-
-            merId = mercadoID(dfC["Mercado"][i])
-
-            diccionario = registros(merId, mer, reg, fec, codR, tipo, idD, cate, idP, prod, var, cal, vol, pmin, pm, ppp, uc, ori, pkg, kgu)
-            datos.append(diccionario.copy())
-
-        # print(idD)
-        # print(idP)
-
-    data = pd.DataFrame(datos)
-    data.to_excel("ConsolidadoDia/FrutaConsolidado.xlsx", index=False)
-    print("Consolidado Frutas")
-
-dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
-
-
-def consolidadoHortaliza():
-
-    print("Creando consolidado Hortalizas")
-
-    datos = []
-
-    for i, index in dfH.iterrows():
-    
-        cateReferencia = referenciaCate
-        
-        _cate = dfH["Producto"][i]
-
-        
         if (_cate == "Oleaginosos"):
             _cate = "Frutos oleaginosos"
 
         elif(_cate == "Breva"):
-            _cate = "Higo"
+             _cate = "Higo"
 
         else:
             pass
 
-        
-        cateReferencia = cateReferencia[cateReferencia["nombre"] == str(_cate)]
+        query = "SELECT * FROM PRODUCTO WHERE nombre = '" + str(_cate) + "'"
+        dfResult = pd.read_sql(query, conection)
+
+        dfResult.to_dict('list')
 
         try:
-            idD = cateReferencia["id"].to_list()
-            
-            mer = dfH["Mercado"][i]
-            reg = dfH["Región"][i]
-            fec = dfH["Fecha"][i]
-            codR = dfH["Codreg"][i]
-            prod = dfH["Producto"][i]
-            var = dfH["Variedad"][i]
-            cal = dfH["Calidad"][i]
-            vol = dfH["Volumen"][i]
-            pmin = dfH["Precio mínimo"][i]
-            pm = dfH["Precio máximo"][i]
-            ppp = dfH["Precio promedio ponderado"][i]
-            uc = dfH["Unidad de comercialización"][i]
-            ori = dfH["Origen"][i]
-            pkg = dfH["Precio $/Kg"][i]
-            kgu = dfH["Kg o Unidades"][i]
-            clasi = dfH["Clasificación"][i]
-
-            merId = mercadoID(dfH["Mercado"][i])
-
-            diccionario = registros2(merId, mer, reg, fec, codR, idD[0], prod, var, cal, vol, pmin, pm, ppp, uc, ori, pkg, kgu, clasi)
-            datos.append(diccionario.copy())
-
-            # print(_prod)
-            # print("Categoría ID: " + str(idD[0]))
+            idD = dfResult["id"][0]
         except:
             idD = ""
 
 
-            mer = dfH["Mercado"][i]
-            reg = dfH["Región"][i]
-            fec = dfH["Fecha"][i]
-            codR = dfH["Codreg"][i]
-            prod = dfH["Producto"][i]
-            var = dfH["Variedad"][i]
-            cal = dfH["Calidad"][i]
-            vol = dfH["Volumen"][i]
-            pmin = dfH["Precio mínimo"][i]
-            pm = dfH["Precio máximo"][i]
-            ppp = dfH["Precio promedio ponderado"][i]
-            uc = dfH["Unidad de comercialización"][i]
-            ori = dfH["Origen"][i]
-            pkg = dfH["Precio $/Kg"][i]
-            kgu = dfH["Kg o Unidades"][i]
-            clasi = dfH["Clasificación"][i]
+        # Categoría
+        _producto = dfC["Producto"][i]
 
-            merId = mercadoID(dfH["Mercado"][i])
+        query = "SELECT * FROM CATEGORIA WHERE nombre = '" + str(_producto) + "'"
+        dfResultP = pd.read_sql(query, conection)
 
-            diccionario = registros2(merId, mer, reg, fec, codR, idD, prod, var, cal, vol, pmin, pm, ppp, uc, ori, pkg, kgu, clasi)
-            datos.append(diccionario.copy())
+        dfResultP.to_dict('list')
+
+        try:
+            idP = dfResultP["id"][0]
+        except:
+            idP = ""
+
+        mer = dfC["Mercado"][i]
+        reg = dfC["Región"][i]
+        fec = dfC["Fecha"][i]
+        codR = dfC["Codreg"][i]
+        tipo = dfC["Tipo"][i]
+        cate = dfC["Categoría"][i]
+        prod = dfC["Producto"][i]
+        var = dfC["Variedad"][i]
+        cal = dfC["Calidad"][i]
+        vol = dfC["Volumen"][i]
+        pmin = dfC["Precio mínimo"][i]
+        pm = dfC["Precio máximo"][i]
+        ppp = dfC["Precio promedio ponderado"][i]
+        uc = dfC["Unidad de comercialización"][i]
+        ori = dfC["Origen"][i]
+        pkg = dfC["Precio $/Kg"][i]
+        kgu = dfC["Kg / unidad"][i]
+
+        merId = mercadoID(dfC["Mercado"][i])
+
+        diccionario = registros(merId, mer, reg, fec, codR, tipo, idD, cate, idP, prod, var, cal, vol, pmin, pm, ppp, uc, ori, pkg, kgu)
+        datos.append(diccionario.copy())
 
         # print(idD)
         # print(idP)
 
     data = pd.DataFrame(datos)
-    data.to_excel("ConsolidadoDia/HortalizaConsolidado.xlsx", index=False)
+    data.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
+    print("Consolidado Frutas")
+
+def consolidadoHortaliza():
+    print("Creando consolidado Hortalizas")
+    dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
+    
+    conection = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
+    cursor = conection.cursor()
+    
+    datos = []
+
+    for i, index in dfH.iterrows():
+
+        # Se hicieron cambios en los campos ya que estaban mal escritos en el consilidado
+
+        #Producto
+        _prod = dfH["Producto"][i]
+
+        if (_prod == "Oleaginosos"):
+            _prod = "Frutos oleaginosos"
+        else:
+            pass
+
+        query = "SELECT * FROM CATEGORIA WHERE nombre = '" + str(_prod) + "'"
+        dfResult = pd.read_sql(query, conection)
+
+        dfResult.to_dict('list')
+
+        try:
+            idD = dfResult["id"][0]
+        except:
+            idD = ""
+
+
+        mer = dfH["Mercado"][i]
+        reg = dfH["Región"][i]
+        fec = dfH["Fecha"][i]
+        codR = dfH["Codreg"][i]
+        prod = dfH["Producto"][i]
+        var = dfH["Variedad"][i]
+        cal = dfH["Calidad"][i]
+        vol = dfH["Volumen"][i]
+        pmin = dfH["Precio mínimo"][i]
+        pm = dfH["Precio máximo"][i]
+        ppp = dfH["Precio promedio ponderado"][i]
+        uc = dfH["Unidad de comercialización"][i]
+        ori = dfH["Origen"][i]
+        pkg = dfH["Precio $/Kg"][i]
+        kgu = dfH["Kg o Unidades"][i]
+        clasi = dfH["Clasificación"][i]
+
+        merId = mercadoID(dfH["Mercado"][i])
+
+        diccionario = registros2(merId, mer, reg, fec, codR, idD, prod, var, cal, vol, pmin, pm, ppp, uc, ori, pkg, kgu, clasi)
+        datos.append(diccionario.copy())
+
+        # print(idD)
+        # print(idP)
+
+    data = pd.DataFrame(datos)
+    data.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx", index=False)
     print("Consolidado Hortalizas")
 
 def registros(meID, Mercado, Region, Fecha, Codreg, Tipo, cateID, Categoria, prodID, Producto, Variedad, Calidad, Volumen, PrecioMin, PrecioMax, ppp, UnidadComer, Origen, PrecioKg, KgUnidad):
@@ -559,64 +505,6 @@ def mercadoID(mercado):
     value = _mercadoID[mercado]
         
     return value
-
-def consolidadoSemanaDE():
-    for h in range(2):
-
-        if(h == 0):
-            df = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
-        else:
-            df = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
-
-        mercados = df["Mercado"].unique().tolist()
-        categoria = df["Categoría"].unique().tolist()
-
-        salida = []
-        salidaSub = []
-
-        for i in range(len(mercados)):
-            salidaSub = []
-
-            mer = mercados[i]    
-            dfMercado = df[df["Mercado"] == mer]
-
-            for j in range(len(categoria)):
-
-                cate = categoria[j]
-                dfCategoria = dfMercado[dfMercado["Categoría"] == categoria[j]]
-
-                std = dfCategoria["Precio $/Kg"].std()
-                # dfAux = dfCategoria[dfCategoria["Precio $/Kg"] < std]
-                dfAux = dfCategoria[dfCategoria["Precio $/Kg"] < dfCategoria["Precio $/Kg"].mean() + 3 * std]
-                dfAux = dfAux[dfAux["Precio $/Kg"] > dfAux["Precio $/Kg"].mean() - 3 * std]
-
-                salida.append(dfAux.copy())
-                salidaSub.append(dfAux.copy())
-
-                '''print("Mercado: " + mer)
-                print("Categoría: " + cate)
-                print("Desviación estándar: " + str(std))
-                print("Cantidad de registros (antes): " + str(len(dfCategoria)))
-                print("Cantidad de registros (después): " + str(len(dfAux)))
-
-                print("")'''
-
-                if(len(dfAux) > 0):
-                    subconjuntos = pd.concat(salidaSub)
-                    
-                    if(h == 0):
-                        subconjuntos.to_excel("PrecioFrutaHortalizas/Consolidado/logica_diaria/subcojuntos/Fruta, " +str(mer) + " - " +  str(cate) + ".xlsx", index=False)
-                    else:
-                        subconjuntos.to_excel("PrecioFrutaHortalizas/Consolidado/logica_diaria/subcojuntos/Hortaliza, " +str(mer) + " - " +  str(cate) + ".xlsx", index=False)
-                    salidaSub = []
-
-            # print("---------------------------------------------")
-
-        data = pd.concat(salida)
-        if(h == 0):
-            data.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
-        else:
-            data.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx", index=False)
 
 if __name__ == '__main__':
     print('El proceso ha comenzado.')
