@@ -8,13 +8,12 @@ import requests
 from os import remove
 import pyodbc
 
-
 def Ciclo():
     Archivos = Descargar_Archivos()
     Archivos = lsExcel()
     if(len(Archivos) > 0):
         Actualizar_Datos(Archivos)
-        
+        # consolidadoHortaliza()
         # consolidadoFruta()
     else:
         print("No hay datos que actualizar")
@@ -266,11 +265,9 @@ def Actualizar_Datos(Archivos):
     #fruta_salida = datosFruta
     #hortaliza_salida = datosHortaliza
     hortaliza_salida["Clasificación"] = "Hortaliza"
-    fruta_salida.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
-    hortaliza_salida.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx", index=False)
 
-    consolidadoHortaliza()
-    
+    fruta_salida.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado_SC.xlsx", index=False)
+    hortaliza_salida.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado_SC.xlsx", index=False)
     return
 
 def Fecha_Actual_Fruta():
