@@ -11,8 +11,8 @@ from os import scandir, getcwd
 
 def descargaDia():
     
-    xlsxFiles = glob.glob('diario/*.xlsx')
-    xlsxFilesConsolidado = glob.glob('consolidado/*.xlsx')
+    xlsxFiles = glob.glob('PrecioFrutaHortalizas/Consolidado/logica_diaria/diario/*.xlsx')
+    xlsxFilesConsolidado = glob.glob('PrecioFrutaHortalizas/Consolidado/logica_diaria/consolidado/*.xlsx')
 
     for g in xlsxFiles:
         try:
@@ -37,7 +37,7 @@ def descargaDia():
     
     try:
         currentFile = requests.get(urlBase)
-        open('diario/' + str(currentDate).replace("-","") + '.xlsx', 'wb').write(currentFile.content)
+        open('PrecioFrutaHortalizas/Consolidado/logica_diaria/diario/' + str(currentDate).replace("-","") + '.xlsx', 'wb').write(currentFile.content)
         print("Archivo diario descargado correctamente.")
     except:
         print("¡Archivo no descargado!")
@@ -56,11 +56,11 @@ def Ciclo():
     # Ciclo()
 
 def actualizarDiario(Archivos):
-    wb = openpyxl.load_workbook("Diccionario.xlsx")
+    wb = openpyxl.load_workbook("PrecioFrutaHortalizas/Diccionario.xlsx")
     hojas_for_dict = wb.sheetnames
     hojas_for_dict
     
-    Mercado = pd.read_excel("Diccionario.xlsx", sheet_name=hojas_for_dict[0])
+    Mercado = pd.read_excel("PrecioFrutaHortalizas/Diccionario.xlsx", sheet_name=hojas_for_dict[0])
     Mercado.to_dict(orient = "list")["Mercado  "]
     for i in range(len(Mercado.to_dict(orient = "list")["Mercado  "])):
         print('"' + Mercado.to_dict(orient = "list")["Mercado  "][i] + '"')
@@ -92,19 +92,19 @@ def actualizarDiario(Archivos):
         8:"Bíobío"
     }
 
-    Mes = pd.read_excel("Diccionario.xlsx", sheet_name=hojas_for_dict[1])
+    Mes = pd.read_excel("PrecioFrutaHortalizas/Diccionario.xlsx", sheet_name=hojas_for_dict[1])
     
     Mes_Dict = {}
     for i in range(len(Mes)):
         Mes_Dict[i] = Mes["Mes"][i]
     Mes_Dict
 
-    Especie  = pd.read_excel("Diccionario.xlsx", sheet_name=hojas_for_dict[2])
+    Especie  = pd.read_excel("PrecioFrutaHortalizas/Diccionario.xlsx", sheet_name=hojas_for_dict[2])
     Especie_Dict = {}
     for i in range(len(Especie)):
         Especie_Dict[Especie["Especie"][i]] = Especie["Clasificación"][i]
     
-    Detalle  = pd.read_excel("Diccionario.xlsx", sheet_name=hojas_for_dict[3])
+    Detalle  = pd.read_excel("PrecioFrutaHortalizas/Diccionario.xlsx", sheet_name=hojas_for_dict[3])
     Detalle_Dict = {}
     for i in range(len(Detalle)):
         Detalle_Dict[Detalle["Detalle"][i]] = Detalle["Kg"][i]
@@ -126,12 +126,12 @@ def actualizarDiario(Archivos):
     Detalle_Dict['$/caja 20 kilos empedrada'] = 20
     Detalle_Dict['$/caja 17 kilos empedrada'] = 17
     
-    Detalle  = pd.read_excel("Diccionario.xlsx", sheet_name=hojas_for_dict[3])
+    Detalle  = pd.read_excel("PrecioFrutaHortalizas/Diccionario.xlsx", sheet_name=hojas_for_dict[3])
     Frutas = []
     Hortalizas = []
     for i in Archivos:
-        print('diario/' + str(i))
-        wb = openpyxl.load_workbook('diario/' +str(i))
+        print('PrecioFrutaHortalizas/Consolidado/logica_diaria/diario/' + str(i))
+        wb = openpyxl.load_workbook('PrecioFrutaHortalizas/Consolidado/logica_diaria/diario/' +str(i))
         hojas = wb.sheetnames
         hojas
         
@@ -139,7 +139,7 @@ def actualizarDiario(Archivos):
         for hoja in hojas:
             if("Frutas" in hoja):
                 #Frutas.append(hoja)
-                datos = pd.read_excel('diario/' + str(i), sheet_name=hoja, skiprows=8, skipfooter=1)
+                datos = pd.read_excel('PrecioFrutaHortalizas/Consolidado/logica_diaria/diario/' + str(i), sheet_name=hoja, skiprows=8, skipfooter=1)
                 mercado_list = hoja.split("_")[1]
                 mercado = Mercado_Dict[mercado_list][0]
                 region = Region_Dict[Mercado_Dict[mercado_list][1]]
@@ -220,14 +220,14 @@ def actualizarDiario(Archivos):
     hortaliza_salida["Clasificación"] = "Hortaliza"
 
     # Archivos consolidados HECTOR
-    fruta_salida.to_excel("Consolidado/FrutaConsolidado.xlsx", index=False)
-    hortaliza_salida.to_excel("Consolidado/HortalizaConsolidado.xlsx", index=False)
+    fruta_salida.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
+    hortaliza_salida.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx", index=False)
     return
 
 def lsExcel():
     salida = []
     # for i in ls("PrecioFrutaHortalizas"):
-    for i in ls("diario"):
+    for i in ls("PrecioFrutaHortalizas/Consolidado/logica_diaria/diario"):
         if("xlsx" in i and "20" in i and ".tmp" not in i and i[0] == "2"):
             salida.append(i)
     return salida
@@ -263,18 +263,18 @@ def diccionario_auxiliar(Mercado, Region, Fecha, Codreg, Tipo, Categoria, Produc
         'Kg / unidad' : Kg_unidad}
 
 def ref_frutas1():
-    dataReferenciaFruta = pd.read_excel("FrutaConsolidado1.xlsx")
+    dataReferenciaFruta = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado1.xlsx")
     return dataReferenciaFruta
 
 def ref_hortalizas1():
-    dataReferenciaHortaliza = pd.read_excel("HortalizaConsolidado1.xlsx")
+    dataReferenciaHortaliza = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado1.xlsx")
     return dataReferenciaHortaliza
 
-dfC = pd.read_excel("Consolidado/FrutaConsolidado.xlsx")
-dfH = pd.read_excel("Consolidado/HortalizaConsolidado.xlsx")
+dfC = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
+dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
 
-referenciaProd = pd.read_excel("referenciaProducto.xlsx") 
-referenciaCate = pd.read_excel("referenciaCategoría.xlsx") 
+referenciaProd = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaProducto.xlsx") 
+referenciaCate = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaCategoría.xlsx") 
 
 def consolidadoFruta():
     print("Creando consolidado Frutas")   
@@ -375,7 +375,7 @@ def consolidadoFruta():
         # print(idP)
 
     data = pd.DataFrame(datos)
-    data.to_excel("Consolidado/FrutaConsolidado.xlsx", index=False)
+    data.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
     print("Consolidado Frutas")
 
 def consolidadoHortaliza():
@@ -463,7 +463,7 @@ def consolidadoHortaliza():
         # print(idP)
 
     data = pd.DataFrame(datos)
-    data.to_excel("Consolidado/HortalizaConsolidado.xlsx", index=False)
+    data.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx", index=False)
     print("Consolidado Hortalizas")
 
 _mercadoID = {'Agrícola del Norte S.A. de Arica':'1', 
@@ -535,7 +535,7 @@ def registros2(meID, Mercado, Region, Fecha, Codreg, prodID, Producto, Variedad,
     return diccionario
 
 def deDiaria():
-    fileDay = "consolidado/*.xlsx"
+    fileDay = "PrecioFrutaHortalizas/Consolidado/logica_diaria/consolidado/*.xlsx"
     fileDay = glob.glob(fileDay)
 
     salidaUpdateF = []
@@ -550,7 +550,7 @@ def deDiaria():
             
             _dfDay = pd.read_excel(h)
 
-            file = "subcojuntos/*.xlsx"
+            file = "PrecioFrutaHortalizas/Consolidado/logica_diaria/subcojuntos/*.xlsx"
             files = glob.glob(file)
 
             archivos = np.array(files)
@@ -616,14 +616,14 @@ def deDiaria():
         # dataUpdateF.to_excel("FRUTA.xlsx", index=False)
         # dataUpdateH.to_excel("HORTALIZA.xlsx", index=False)
         
-        dfFrutas = pd.read_excel("FrutaConsolidado.xlsx")
-        dfHortalizas = pd.read_excel("HortalizaConsolidado.xlsx")
+        dfFrutas = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
+        dfHortalizas = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
         
         finalF = pd.concat([dfFrutas, dataUpdateF])
         finalH = pd.concat([dfHortalizas, dataUpdateH])
         
-        finalF.to_excel("FrutaConsolidado.xlsx", index=False)
-        finalH.to_excel("HortalizaConsolidado.xlsx", index=False)
+        finalF.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
+        finalH.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx", index=False)
         
         
     else:
