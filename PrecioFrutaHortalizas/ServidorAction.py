@@ -7,6 +7,8 @@ import openpyxl
 import requests
 from os import remove
 import pyodbc
+import os
+import glob
 
 def Ciclo():
     Archivos = Descargar_Archivos()
@@ -15,6 +17,7 @@ def Ciclo():
         Actualizar_Datos(Archivos)
         consolidadoHortaliza()
         consolidadoFruta()
+        consolidadoSemanaDE()
     else:
         print("No hay datos que actualizar")
     print("Ciclo completo")
@@ -532,6 +535,66 @@ def mercadoID(mercado):
         
     return value
 
+def consolidadoSemanaDE():
+    xlsxFiles = glob.glob('PrecioFrutaHortalizas/Consolidado/logica_diaria/subcojuntos/*.xlsx')
+
+    for g in xlsxFiles:
+        try:
+            os.remove(g)
+        except OSError as e:
+            print(f"Error:{ e.strerror}")
+        
+    for h in range(2):
+
+        if(h == 0):
+            df = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
+        else:
+            df = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
+
+        mercados = df["Mercado"].unique().tolist()
+        categoria = df["Categoría"].unique().tolist()
+
+        salida = []
+        salidaSub = []
+
+        for i in range(len(mercados)):
+            salidaSub = []
+
+            mer = mercados[i]    
+            dfMercado = df[df["Mercado"] == mer]
+
+            for j in range(len(categoria)):
+
+                cate = categoria[j]
+                dfCategoria = dfMercado[dfMercado["Categoría"] == categoria[j]]
+
+                std = dfCategoria["Precio $/Kg"].std()
+                # dfAux = dfCategoria[dfCategoria["Precio $/Kg"] < std]
+                dfAux = dfCategoria[dfCategoria["Precio $/Kg"] < dfCategoria["Precio $/Kg"].mean() + 3 * std]
+                dfAux = dfAux[dfAux["Precio $/Kg"] > dfAux["Precio $/Kg"].mean() - 3 * std]
+
+                salida.append(dfAux.copy())
+                salidaSub.append(dfAux.copy())
+
+                if(len(dfAux) > 0):
+                    subconjuntos = pd.concat(salidaSub)
+                    
+                    if(h == 0):
+                        subconjuntos.to_excel("PrecioFrutaHortalizas/Consolidado/logica_diaria/subcojuntos/Fruta, " +str(mer) + " - " +  str(cate) + ".xlsx", index=False)
+                    else:
+                        subconjuntos.to_excel("PrecioFrutaHortalizas/Consolidado/logica_diaria/subcojuntos/Hortaliza, " +str(mer) + " - " +  str(cate) + ".xlsx", index=False)
+                    salidaSub = []
+
+            # print("---------------------------------------------")
+
+        data = pd.concat(salida)
+        if(h == 0):
+            data.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
+        else:
+            data.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx", index=False)
+
+    print("Desviación estándar semanal creada correctamente.")
+            
 if __name__ == '__main__':
     print('El proceso ha comenzado.')
     Ciclo()
