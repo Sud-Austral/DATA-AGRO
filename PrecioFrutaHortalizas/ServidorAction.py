@@ -306,17 +306,15 @@ referenciaCate = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaCate
 
 def consolidadoFruta():
     print("Creando consolidado Frutas")
-    dfC = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
+    # dfC = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
     
-    conection = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
-    cursor = conection.cursor()
+    # conection = pyodbc.connect("Driver={ODBC Driver 17 for SQL Server};Server=sud-austral.database.windows.net;Database=graficos;uid=sudaustral;pwd=Sud123456789")
+    # cursor = conection.cursor()
     
     
     datos = []
 
     for i, index in dfC.iterrows():
-
-        # Se hicieron cambios en los campos ya que estaban mal escritos en el consilidado
 
         #Producto
         _cate = dfC["Categoría"][i]
@@ -325,10 +323,13 @@ def consolidadoFruta():
             _cate = "Frutos oleaginosos"
 
         elif(_cate == "Breva"):
-             _cate = "Higo"
+            _cate = "Higo"
 
-        else:
-            pass
+        elif(_cate == "Haba"):
+            _cate = "Habas"
+
+        elif(_cate == "Sandia"):
+            _cate = "Sandía"
 
         query = "SELECT * FROM PRODUCTO WHERE nombre = '" + str(_cate) + "'"
         dfResult = pd.read_sql(query, conection)
