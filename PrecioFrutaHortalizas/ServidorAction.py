@@ -353,6 +353,18 @@ def consolidadoFruta():
         # Categoría
         _producto = dfC["Producto"][i]
 
+        if (_producto == "Oleaginosos"):
+            _producto = "Frutos oleaginosos"
+
+        elif(_producto == "Breva"):
+            _producto = "Higo"
+
+        elif(_producto == "Haba"):
+            _producto = "Habas"
+
+        elif(_producto == "Sandia"):
+            _producto = "Sandía"
+
         # query = "SELECT * FROM CATEGORIA WHERE nombre = '" + str(_producto) + "'"
         # dfResultP = pd.read_sql(query, conection)
 
