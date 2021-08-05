@@ -14,7 +14,7 @@ def Ciclo():
     if(len(Archivos) > 0):
         Actualizar_Datos(Archivos)
         consolidadoHortaliza()
-        # consolidadoFruta()
+        consolidadoFruta()
     else:
         print("No hay datos que actualizar")
     print("Ciclo completo")
@@ -315,6 +315,9 @@ def consolidadoFruta():
     datos = []
 
     for i, index in dfC.iterrows():
+        
+        prodReferencia = referenciaProd
+        cateReferencia = referenciaCate
 
         #Producto
         _cate = dfC["Categoría"][i]
@@ -331,29 +334,33 @@ def consolidadoFruta():
         elif(_cate == "Sandia"):
             _cate = "Sandía"
 
-        query = "SELECT * FROM PRODUCTO WHERE nombre = '" + str(_cate) + "'"
-        dfResult = pd.read_sql(query, conection)
+        # query = "SELECT * FROM PRODUCTO WHERE nombre = '" + str(_cate) + "'"
+        # dfResult = pd.read_sql(query, conection)
 
-        dfResult.to_dict('list')
+        prodReferencia = prodReferencia[prodReferencia["nombre"] == _cate]
 
         try:
-            idD = dfResult["id"][0]
+            idD = prodReferencia["id"].to_list()
         except:
             idD = ""
+
+        idD = str(idD).replace('[','').replace(']','')
 
 
         # Categoría
         _producto = dfC["Producto"][i]
 
-        query = "SELECT * FROM CATEGORIA WHERE nombre = '" + str(_producto) + "'"
-        dfResultP = pd.read_sql(query, conection)
+        # query = "SELECT * FROM CATEGORIA WHERE nombre = '" + str(_producto) + "'"
+        # dfResultP = pd.read_sql(query, conection)
 
-        dfResultP.to_dict('list')
+        cateReferencia = cateReferencia[cateReferencia["nombre"] == _producto]
 
         try:
-            idP = dfResultP["id"][0]
+            idP = cateReferencia["id"].to_list()
         except:
             idP = ""
+
+        idP = str(idP).replace('[','').replace(']','')
 
         mer = dfC["Mercado"][i]
         reg = dfC["Región"][i]
