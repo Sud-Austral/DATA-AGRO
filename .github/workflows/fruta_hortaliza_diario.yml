@@ -1,9 +1,9 @@
-name: Frutas y hortalizas, completo (lunes, jueves)
+name: Frutas y hortalizas, diario
 
 on:
     # push
     schedule:
-      - cron:  '0 22 * * 1,4'
+      - cron:  '0 21 * * 2,3,5,6'
 
 jobs:
   build:
@@ -26,11 +26,11 @@ jobs:
 
     - name: Ejecutando archivo PY
       run: |
-        python PrecioFrutaHortalizas/ServidorAction.py
+        python PrecioFrutaHortalizas/servidor_fh_diario.py
 
     - uses: stefanzweifel/git-auto-commit-action@v2
       with:
-        commit_message: "Precios"
+        commit_message: "Fruta / hortaliza, diario"
         branch: master
         # Optional glob pattern of files which should be added to the commit
         #file_pattern: /
