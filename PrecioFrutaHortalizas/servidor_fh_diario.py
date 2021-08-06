@@ -173,7 +173,7 @@ def actualizarDiario(Archivos):
         for hoja in hojas:
             if("Hortalizas" in hoja):
                 #Frutas.append(hoja)
-                datos = pd.read_excel('diario/' + str(i), sheet_name=hoja, skiprows=8, skipfooter=1)
+                datos = pd.read_excel('PrecioFrutaHortalizas/Consolidado/logica_diaria/diario/' + str(i), sheet_name=hoja, skiprows=8, skipfooter=1)
                 mercado_list = hoja.split("_")[1]
                 mercado = Mercado_Dict[mercado_list][0]
                 region = Region_Dict[Mercado_Dict[mercado_list][1]]
