@@ -220,8 +220,8 @@ def actualizarDiario(Archivos):
     hortaliza_salida["Clasificación"] = "Hortaliza"
 
     # Archivos consolidados HECTOR
-    fruta_salida.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
-    hortaliza_salida.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx", index=False)
+    fruta_salida.to_excel("PrecioFrutaHortalizas/Consolidado/logica_diaria/consolidado/FrutaConsolidado.xlsx", index=False)
+    hortaliza_salida.to_excel("PrecioFrutaHortalizas/Consolidado/logica_diaria/consolidado/HortalizaConsolidado.xlsx", index=False)
     return
 
 def lsExcel():
@@ -270,11 +270,11 @@ def ref_hortalizas1():
     dataReferenciaHortaliza = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado1.xlsx")
     return dataReferenciaHortaliza
 
-dfC = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx")
-dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx")
+dfC = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado_SC.xlsx")
+dfH = pd.read_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado_SC.xlsx")
 
-referenciaProd = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaProducto.xlsx") 
-referenciaCate = pd.read_excel("PrecioFrutaHortalizas/Consolidado/referenciaCategoría.xlsx") 
+referenciaProd = pd.read_excel("PrecioFrutaHortalizas/Consolidado/logica_diaria/consolidado/FrutaConsolidado.xlsx") 
+referenciaCate = pd.read_excel("PrecioFrutaHortalizas/Consolidado/logica_diaria/consolidado/HortalizaConsolidado.xlsx") 
 
 def consolidadoFruta():
     print("Creando consolidado Frutas")   
@@ -375,7 +375,7 @@ def consolidadoFruta():
         # print(idP)
 
     data = pd.DataFrame(datos)
-    data.to_excel("PrecioFrutaHortalizas/Consolidado/FrutaConsolidado.xlsx", index=False)
+    data.to_excel("PrecioFrutaHortalizas/Consolidado/logica_diaria/consolidado/FrutaConsolidado.xlsx", index=False)
     print("Consolidado Frutas")
 
 def consolidadoHortaliza():
@@ -463,7 +463,7 @@ def consolidadoHortaliza():
         # print(idP)
 
     data = pd.DataFrame(datos)
-    data.to_excel("PrecioFrutaHortalizas/Consolidado/HortalizaConsolidado.xlsx", index=False)
+    data.to_excel("PrecioFrutaHortalizas/Consolidado/logica_diaria/consolidado/HortalizaConsolidado.xlsx", index=False)
     print("Consolidado Hortalizas")
 
 _mercadoID = {'Agrícola del Norte S.A. de Arica':'1', 
