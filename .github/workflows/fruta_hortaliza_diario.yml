@@ -1,9 +1,9 @@
 name: Frutas y hortalizas, diario
 
 on:
-    # push
-    schedule:
-      - cron:  '0 21 * * 2,3,5,6'
+    #push
+    # schedule:
+      # - cron:  '0 21 * * 2,3,5,6'
 
 jobs:
   build:
