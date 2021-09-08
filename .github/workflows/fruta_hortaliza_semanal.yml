@@ -1,9 +1,9 @@
-name: Frutas y hortalizas, completo (lunes, jueves)
+name: Frutas y hortalizas
 
 on:
-    # push
-    schedule:
-      - cron:  '0 21 * * 1,4'
+    push
+    # schedule:
+      # - cron:  '0 13 * * *'
 
 jobs:
   build:
